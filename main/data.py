@@ -1,8 +1,8 @@
 import json
+from objects import RECT
 
 class data:
-    def __init__(self, rect, main):
-        self.rect = rect
+    def __init__(self, main):
         self.main = main
 
     def get_data(self):
@@ -11,7 +11,7 @@ class data:
 
             if data != None:
                 for i in data:
-                    x = self.rect(i['x'],i['y'],i['width'],i['height'],self.main)
+                    x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
                     self.main.rects.append(x)
                     self.main.rects[len(self.main.rects)-1].index = len(self.main.rects)-1
 
@@ -21,7 +21,7 @@ class data:
 
             for i in self.main.rects:
                 data_to_write.append({'x': i.x, 'y': i.y, 'width': i.width, 'height': i.height})
-
+        
             data.write(json.dumps(data_to_write))
 
     def clear_data(self):
