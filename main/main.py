@@ -1,20 +1,9 @@
 import pygame
 from threading import Thread
 from data import data
+from objects import RECT
 
 pygame.init()
-
-class RECT(pygame.Rect):
-    def __init__(self, x, y, width, height, main):
-        self.main = main
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.index = 0
-
-    def create(self):
-        self.rect = pygame.draw.rect(self.main.window, (0,0,0),pygame.Rect(self.x,self.y,self.width,self.height))
 
 class MAIN:
     def __init__(self):
@@ -55,7 +44,7 @@ class MAIN:
 
 
 main = MAIN()
-data = data(RECT, main)
+data = data(main)
 
 data.get_data()
 
