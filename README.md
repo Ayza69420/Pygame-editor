@@ -6,7 +6,7 @@ Made to help you create UI using pygame in python, gonna add way more to this pr
 
 - Add coloring
 - Ability to get every rectangle's information on close
-- Saving
+- ~~Saving~~
 - Create Text
 - More control (such as specifying the exact position of a rectangle on creation, settings tab, etc.)
 
