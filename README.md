@@ -4,10 +4,10 @@ Made to help you create UI using pygame in python, gonna add way more to this pr
 
 # To-do
 
-**- Add coloring**
-**- Ability to get every rectangle's information on close**
-**- Saving**
-**- Create Text**
+- Add coloring
+- Ability to get every rectangle's information on close
+- Saving
+- Create Text
 
 # Pygame Installation
 
