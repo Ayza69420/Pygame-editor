@@ -29,11 +29,13 @@ HOTKEYS
 C = Clear Data        
 E = Create New Rect
 R = Remove Rect
-T = Create text (This won't create text if your mouse is on an existing text, instead edit it)*
+T = Create text (This won't create text if your mouse is on an existing text, instead edit it)
+*
 
 TEXT CONTROL HOTKEYS
 
 *Backspace = Removes text
 Enter = Finish/End
 Escape (esc) = Change text size
-Escape (esc) again = Finish/End Changing*
+Escape (esc) again = Finish/End Changing
+*
