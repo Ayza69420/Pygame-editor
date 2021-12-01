@@ -1,5 +1,5 @@
 import json
-from objects import RECT
+from objects import RECT, TEXT
 
 class data:
     def __init__(self, main):
@@ -11,18 +11,39 @@ class data:
 
             if data != None:
                 for i in data:
-                    x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
-                    self.main.rects.append(x)
-                    self.main.rects[len(self.main.rects)-1].index = len(self.main.rects)-1
+                    if i['type'] == 'rect':
+                        x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
+                        self.main.rects.append(x)
+                        self.main.rects[len(self.main.rects)-1].index = len(self.main.rects)-1
+                    
+                    elif i['type'] == 'text':
+                        x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'],i['index'])
+                        self.main.text.append(x)
+                        self.main.rects[len(self.main.text)].index = len(self.main.rects)-1
+            
 
     def save_data(self):
         with open('data.json', 'w') as data:
-            data_to_write = []
+            try:
+                data_to_write = []
 
-            for i in self.main.rects:
-                data_to_write.append({'x': i.x, 'y': i.y, 'width': i.width, 'height': i.height})
-        
-            data.write(json.dumps(data_to_write))
+                if self.main.rects:
+                    for i in self.main.rects:
+                        data_to_write.append({'x': i.x, 'y': i.y, 'width': i.width, 'height': i.height, 'type': 'rect'})
+
+                if self.main.text:
+                    for i in self.main.text:
+                        data_to_write.append({'size': i.size, 'text': i.text, 'x': i.x, 'y': i.y, 'index': i.index, 'type': 'text'})
+
+                data.write(json.dumps(data_to_write))
+
+                print('Successfully saved.')
+
+            except Exception as err:
+                with open('data.json','w') as data:
+                    data.write(json.dumps([]))
+
+                    print('Failed to save the data, for error:',err)
 
     def clear_data(self):
         with open('data.json', 'w') as data:
