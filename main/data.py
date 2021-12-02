@@ -14,13 +14,10 @@ class data:
                     if i['type'] == 'rect':
                         x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
                         self.main.rects.append(x)
-                        self.main.rects[len(self.main.rects)-1].index = len(self.main.rects)-1
                     
                     elif i['type'] == 'text':
-                        x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'],i['index'])
+                        x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'])
                         self.main.text.append(x)
-                        self.main.rects[len(self.main.text)].index = len(self.main.rects)-1
-            
 
     def save_data(self):
         with open('data.json', 'w') as data:
@@ -33,7 +30,7 @@ class data:
 
                 if self.main.text:
                     for i in self.main.text:
-                        data_to_write.append({'size': i.size, 'text': i.text, 'x': i.x, 'y': i.y, 'index': i.index, 'type': 'text'})
+                        data_to_write.append({'size': i.size, 'text': i.text, 'x': i.x, 'y': i.y, 'type': 'text'})
 
                 data.write(json.dumps(data_to_write))
 
