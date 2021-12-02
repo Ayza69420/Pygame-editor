@@ -73,10 +73,10 @@ data.get_data()
 
 selected = False
 dragging = False
-text_to_add = ""
 size_to_change = ""
 listening_for_keys = False
 listening_for_size_change = False
+cond = False
 
 print("""
 | HOTKEYS  
@@ -108,7 +108,7 @@ while True:
                 if i.collidepoint(event.pos):
                     main.current_rect = i
 
-                    main.currently_interacting = 'button'
+                    main.currently_interacting = 'rect'
                     
             for i in main.text:
                 if (event.pos[0] > i.x and event.pos[0] <= i.x+i.obj.size(i.text)[0]+5) and (event.pos[1] > i.y and event.pos[1] <= i.y+i.obj.size(i.text)[1]+5):
@@ -207,7 +207,12 @@ while True:
                 else:    
                     try:
                         if (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
+                            if not listening_for_keys:
+                                    cond = True
+
                             def drag_text():
+                                
+
                                 old_mouse_x = event.pos[0]
                                 old_mouse_y = event.pos[1]
 
@@ -234,33 +239,21 @@ while True:
 
         if event.type == pygame.KEYDOWN:
 
-            # handling text
+            # handling text 
 
-            def cond_check():
-                pos = pygame.mouse.get_pos()
-
-                try:
-                    if (pos[0] > main.current_text.x and pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (pos[1] > main.current_text.y and pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
-                        return True
-                    return False
-                except Exception:
-                    pass
 
             if event.unicode == 't' and not listening_for_keys:
-                if cond_check():
-                    text_to_add = main.current_text.text       
-                else:
-                    x = TEXT(24, text_to_add, main)
-                    x.index = len(main.text)
+                if not cond:
+                    x = TEXT(24, "", main)
                     main.text.append(x)
 
                 listening_for_keys = True
 
             elif event.key == pygame.K_RETURN:
-                if cond_check():
-                    main.current_text.text = text_to_add
+                if cond:
+                    cond = False
+                    listening_for_keys = False
                 else:
-                    text_to_add = ""
                     listening_for_keys = False
 
             elif event.key == pygame.K_ESCAPE and not listening_for_size_change and listening_for_keys:
@@ -276,7 +269,7 @@ while True:
                     size_to_change = size_to_change[:-1]
 
                     try:
-                        if cond_check():
+                        if cond:
                             main.current_text.size = int(size_to_change)
                         else:
                             x.size = int(size_to_change)
@@ -285,14 +278,17 @@ while True:
                         size_to_change = ""   
 
                 elif listening_for_keys:
-                    text_to_add = text_to_add[:-1]
-                    
+                    if cond:
+                        main.current_text.text = main.current_text.text[:-1]
+                    else:
+                        x.text = x.text[:-1]
+                        
                     
             elif listening_for_size_change:
                 size_to_change += event.unicode
 
                 try:
-                    if cond_check():
+                    if cond:
                         main.current_text.size = int(size_to_change)
                     else:
                         x.size = int(size_to_change)
@@ -301,22 +297,23 @@ while True:
                     size_to_change = ""
 
             elif listening_for_keys and not listening_for_size_change:
-                text_to_add += event.unicode
-                if cond_check():
-                    main.current_text.text = text_to_add
+                if cond:
+                    main.current_text.text += event.unicode
                 else:
-                    x.text = text_to_add
+                    x.text += event.unicode
                 
             # rects
 
             elif event.unicode == 'e':
                 x = RECT(25, 25, 100, 50, main)
-                x.index = len(main.rects)-1
                 main.rects.append(x)                
             
             elif event.unicode == 'r':
                 try:
-                    del main.rects[main.current_rect.index]
+                    if main.currently_interacting == 'rect':
+                        main.rects.remove(main.current_rect)
+                    elif main.currently_interacting == 'text':
+                        main.text.remove(main.current_text)
                 except Exception:
                     pass
             
@@ -328,3 +325,4 @@ while True:
 
 
     main.display()
+    
