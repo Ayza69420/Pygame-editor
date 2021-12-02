@@ -7,19 +7,17 @@ class RECT(pygame.Rect):
         self.y = y
         self.width = width
         self.height = height
-        self.index = 0
 
     def create(self):
         self.rect = pygame.draw.rect(self.main.window, (0,0,0),pygame.Rect(self.x,self.y,self.width,self.height))
 
 class TEXT:
-    def __init__(self, size, text, main, x=25, y=25, index=0):
+    def __init__(self, size, text, main, x=25, y=25):
         self.text = text
         self.main = main
         self.x = x
         self.y = y
         self.size = size
-        self.index = index
 
     def create(self):
         self.obj = pygame.font.SysFont('freesansbold.ttf',self.size)
