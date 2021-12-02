@@ -45,3 +45,5 @@ class data:
     def clear_data(self):
         with open('data.json', 'w') as data:
             data.write(json.dumps([]))
+
+            print('Successfully cleared the data')
