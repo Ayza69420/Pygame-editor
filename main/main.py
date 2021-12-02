@@ -27,6 +27,9 @@ class MAIN:
         self.current_rect = self.rects[0]
         self.current_text = None
 
+        self.undo = []
+        self.redo = []
+
 
     def display(self):
         self.window.fill((255,255,255))
@@ -67,7 +70,45 @@ class MAIN:
             for text in self.text:
                 text.create()
 
-               
+    def undo_action(self):
+        try:
+            action = self.undo[len(self.undo)-1]
+
+            def del_and_append():
+                self.redo.append(action)
+                del self.undo[len(self.undo)-1]
+
+            if "rect_deleted" in action:
+                del self.rects[self.rects.index(action["rect_deleted"])]
+
+                del_and_append()
+            elif "text_deleted" in action:
+                del self.rects[main.text.index(action["text_deleted"])]
+
+                del_and_append()
+
+        except Exception:
+            pass
+
+    def redo_action(self):
+        try:
+            action = self.redo[len(self.redo)-1]
+            
+            def del_and_append():
+                self.undo.append(action)
+                del self.redo[len(self.redo)-1]
+            
+            if "rect_deleted" in action:
+                self.rects.append(action["rect_deleted"])
+
+                del_and_append()
+            elif "text_deleted" in action:
+                self.text.append(action["text_deleted"])
+
+                del_and_append()
+            
+        except Exception:
+            pass
 
 
 main = MAIN()
@@ -89,6 +130,8 @@ print("""
 | C = Clear Data	    
 | E = Create New Rect
 | R = Remove Object
+| Z = Redo Delete
+| Y = Undo Delete
 | T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
 |
 | TEXT CONTROL HOTKEYS
@@ -137,12 +180,13 @@ while True:
            
             if (event.pos[0] > main.current_rect.bottomright[0]-5 and event.pos[0] < main.current_rect.bottomright[0]+5) and (event.pos[1] < main.current_rect.bottomright[1]+5 and event.pos[1] > main.current_rect.bottomright[1]-5):
                 
+        
                 def bottom_right():
                     try:
                         old_mouse_x = event.pos[0]
                         old_mouse_y = event.pos[1]
 
-                        while dragging:
+                        while dragging:                                
                             if old_mouse_x != event.pos[0]:
                                 main.current_rect.width += (event.pos[0] - old_mouse_x)
                                 old_mouse_x = event.pos[0]
@@ -150,6 +194,8 @@ while True:
                             if old_mouse_y != event.pos[1]:
                                 main.current_rect.height += (event.pos[1] - old_mouse_y)
                                 old_mouse_y = event.pos[1]
+
+                            
 
                             if main.current_rect.height < 20:
                                 main.current_rect.height = 20
@@ -167,8 +213,9 @@ while True:
                         old_mouse_y = event.pos[1]
 
                         while dragging:
-                            main.current_rect.height += event.pos[1] - old_mouse_y
-                            old_mouse_y = event.pos[1]
+                            if event.pos[1] != old_mouse_y: 
+                                main.current_rect.height += event.pos[1] - old_mouse_y
+                                old_mouse_y = event.pos[1]                  
 
                             if main.current_rect.height < 20:
                                 main.current_rect.height = 20
@@ -186,8 +233,9 @@ while True:
                         old_mouse_x = event.pos[0]
 
                         while dragging:
-                            main.current_rect.width += event.pos[0] - old_mouse_x
-                            old_mouse_x = event.pos[0]
+                            if event.pos[0] != old_mouse_x:
+                                main.current_rect.width += event.pos[0] - old_mouse_x
+                                old_mouse_x = event.pos[0]
 
                             if main.current_rect.width < 20:
                                 main.current_rect.width = 20
@@ -215,6 +263,7 @@ while True:
                                 if event.pos[1] != old_mouse_y:
                                     main.current_rect.y += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]
+
                         except Exception:
                             pass
 
@@ -235,13 +284,13 @@ while True:
 
                                 try:
                                     while dragging:
-
                                         if event.pos[0] != old_mouse_x:
                                             main.current_text.x += event.pos[0] - old_mouse_x
                                             old_mouse_x = event.pos[0]
                                         if event.pos[1] != old_mouse_y:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
+
 
                                 except Exception:
                                     pass
@@ -257,7 +306,6 @@ while True:
         if event.type == pygame.KEYDOWN:
 
             # handling text
-
             if event.unicode == 't' and not listening_for_keys:
                 pos = pygame.mouse.get_pos()
 
@@ -271,7 +319,8 @@ while True:
 
                 listening_for_keys = True
 
-            elif event.key == pygame.K_RETURN:
+
+            elif event.key == pygame.K_RETURN and listening_for_keys:
                 if cond and main.current_text:
                     cond = False
                     listening_for_keys = False
@@ -333,8 +382,12 @@ while True:
             elif event.unicode == 'r':
                 try:
                     if main.currently_interacting == 'rect':
+                        main.redo.append({"rect_deleted": main.current_rect})
+
                         del main.rects[main.rects.index(main.current_rect)]
                     elif main.currently_interacting == 'text':
+                        main.redo.append({"text_deleted": main.current_text})
+
                         del main.text[main.text.index(main.current_text)]
                         main.current_text = None
                         cond = False
@@ -348,6 +401,11 @@ while True:
             elif event.unicode == 'c':
                 data.clear_data()
 
+            elif event.unicode == 'z' and main.redo:
+                main.redo_action()
+                  
+            elif event.unicode == 'y' and main.undo:
+                main.undo_action()
 
     main.display()
     
