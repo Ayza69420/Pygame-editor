@@ -3,8 +3,8 @@ import pygame
 class RECT(pygame.Rect):
     def __init__(self, x, y, width, height, main):
         self.main = main
-        self.x = x
-        self.y = y
+        self.x = self.main.window_width/2-50
+        self.y = self.main.window_height/2-50
         self.width = width
         self.height = height
 
@@ -15,8 +15,8 @@ class TEXT:
     def __init__(self, size, text, main, x=25, y=25):
         self.text = text
         self.main = main
-        self.x = x
-        self.y = y
+        self.x = self.main.window_width/2-50
+        self.y = self.main.window_height/2-50
         self.size = size
 
     def create(self):
