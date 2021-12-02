@@ -29,7 +29,7 @@ Mainly based on your keyboard, as everything is based on hotkeys. However, you n
 *C = Clear Data*  
 *E = Create New Rect*  
 *R = Remove Rect*  
-*T = Create text (This won't create text if your mouse is on an existing text, instead edit it)*  
+*T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)*  
 
 ***TEXT CONTROL HOTKEYS***
 
