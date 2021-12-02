@@ -20,12 +20,12 @@ class MAIN:
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
         self.clock = pygame.time.Clock()
 
-        self.currently_interacting = None
-        self.current_rect = RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)
-        self.current_text = None
-
-        self.rects = [self.current_rect] 
+        self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)] 
         self.text = []
+
+        self.currently_interacting = None
+        self.current_rect = self.rects[0]
+        self.current_text = None
 
 
     def display(self):
@@ -40,16 +40,20 @@ class MAIN:
 
     def render_text(self):
         font = pygame.font.SysFont('freesansbold.ttf',32)
-        text = font.render(f'Position: ({self.current_rect.x},{self.current_rect.y}) | Size:  (Width: {self.current_rect.width} | Height: {self.current_rect.height})',False,(0,0,0))
+        text = font.render(f'Position: ? | Size:  (Width: ? | Height: ?)',False,(0,0,0))
+        
+        try:
+            if self.currently_interacting == 'rect' and self.current_rect in main.rects:
+                text = font.render(f'Position: ({self.current_rect.x},{self.current_rect.y}) | Size:  (Width: {self.current_rect.width} | Height: {self.current_rect.height})',False,(0,0,0))
+            elif self.currently_interacting == 'text' and self.current_text in main.text:
+                size = self.current_text.obj.size(self.current_text.text)
+                w = size[0]
+                h = size[1]
 
-        if self.currently_interacting == 'rect':
-            text = font.render(f'Position: ({self.current_rect.x},{self.current_rect.y}) | Size:  (Width: {self.current_rect.width} | Height: {self.current_rect.height})',False,(0,0,0))
-        elif self.currently_interacting == 'text':
-            size = self.current_text.obj.size(self.current_text.text)
-            w = size[0]
-            h = size[1]
-            
-            text = font.render(f'Position: ({self.current_text.x},{self.current_text.y}) | Size:  (Width: {w} | Height: {h})',False,(0,0,0))
+                text = font.render(f'Position: ({self.current_text.x},{self.current_text.y}) | Size:  (Width: {w} | Height: {h})',False,(0,0,0))
+        except:
+            text = font.render(f'Position: ? | Size:  (Width: ? | Height: ?)',False,(0,0,0))
+
 
         self.window.blit(text, (10, self.window_height-25))
 
@@ -206,6 +210,7 @@ while True:
 
                 else:    
                     try:
+
                         if (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
                             if not listening_for_keys:
                                     cond = True
@@ -239,18 +244,23 @@ while True:
 
         if event.type == pygame.KEYDOWN:
 
-            # handling text 
-
+            # handling text
 
             if event.unicode == 't' and not listening_for_keys:
-                if not cond:
+                pos = pygame.mouse.get_pos()
+
+                if main.current_text in main.text and (pos[0] > main.current_text.x and pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (pos[1] > main.current_text.y and pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5) and cond:
+                    cond = True
+                else:
+                    cond = False
+
                     x = TEXT(24, "", main)
                     main.text.append(x)
 
                 listening_for_keys = True
 
             elif event.key == pygame.K_RETURN:
-                if cond:
+                if cond and main.current_text:
                     cond = False
                     listening_for_keys = False
                 else:
@@ -269,7 +279,7 @@ while True:
                     size_to_change = size_to_change[:-1]
 
                     try:
-                        if cond:
+                        if cond and main.current_text:
                             main.current_text.size = int(size_to_change)
                         else:
                             x.size = int(size_to_change)
@@ -278,7 +288,7 @@ while True:
                         size_to_change = ""   
 
                 elif listening_for_keys:
-                    if cond:
+                    if cond and main.current_text:
                         main.current_text.text = main.current_text.text[:-1]
                     else:
                         x.text = x.text[:-1]
@@ -288,7 +298,7 @@ while True:
                 size_to_change += event.unicode
 
                 try:
-                    if cond:
+                    if cond and main.current_text:
                         main.current_text.size = int(size_to_change)
                     else:
                         x.size = int(size_to_change)
@@ -297,7 +307,7 @@ while True:
                     size_to_change = ""
 
             elif listening_for_keys and not listening_for_size_change:
-                if cond:
+                if cond and main.current_text:
                     main.current_text.text += event.unicode
                 else:
                     x.text += event.unicode
@@ -311,9 +321,12 @@ while True:
             elif event.unicode == 'r':
                 try:
                     if main.currently_interacting == 'rect':
-                        main.rects.remove(main.current_rect)
+                        del main.rects[main.rects.index(main.current_rect)]
                     elif main.currently_interacting == 'text':
-                        main.text.remove(main.current_text)
+                        del main.text[main.text.index(main.current_text)]
+                        main.current_text = None
+                        cond = False
+
                 except Exception:
                     pass
             
