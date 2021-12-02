@@ -18,8 +18,7 @@ class TEXT:
         self.x = self.main.window_width/2-50
         self.y = self.main.window_height/2-50
         self.size = size
-
-    def create(self):
         self.obj = pygame.font.SysFont('freesansbold.ttf',self.size)
-        
+
+    def create(self):     
         self.main.window.blit(self.obj.render(self.text,False,(0,0,0)), (self.x, self.y))
