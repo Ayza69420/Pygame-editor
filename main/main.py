@@ -88,8 +88,8 @@ print("""
 | S = Save Data
 | C = Clear Data	    
 | E = Create New Rect
-| R = Remove Rect
-| T = Create text (This won't create text if your mouse is on an existing text, instead edit it)
+| R = Remove Object
+| T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
 |
 | TEXT CONTROL HOTKEYS
 |
@@ -102,6 +102,18 @@ print("""
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            with open('info.txt', 'w') as info:
+                info_to_write = ""
+
+                for i,v in enumerate(main.rects):
+                    info_to_write += f"RECT {i+1}: x: {v.x}, y: {v.y}, width: {v.width}, height: {v.height}\n"          
+
+                for i,v in enumerate(main.text):
+                    info_to_write += f"TEXT {i+1}: text: {v.text}, x: {v.x}, y: {v.y}, text size: {v.size}\n"
+
+
+                info.write(info_to_write)
+            
             pygame.quit()
             exit()
 
