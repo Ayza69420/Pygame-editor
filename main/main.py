@@ -382,4 +382,3 @@ while True:
                 main.undo_action()
 
     main.display()
-    
