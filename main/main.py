@@ -22,6 +22,8 @@ class MAIN:
         self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)] 
         self.text = []
 
+        self.maximum_resizing = 5
+
         self.currently_interacting = None
         self.current_rect = self.rects[0]
         self.current_text = None
@@ -175,10 +177,10 @@ while True:
 
                             
 
-                            if main.current_rect.height < 20:
-                                main.current_rect.height = 20
-                            if main.current_rect.width < 20:
-                                main.current_rect.width = 20
+                            if main.current_rect.height < main.maximum_resizing:
+                                main.current_rect.height = main.maximum_resizing
+                            if main.current_rect.width < main.maximum_resizing:
+                                main.current_rect.width = main.maximum_resizing
                     except Exception:
                         pass
 
@@ -195,8 +197,8 @@ while True:
                                 main.current_rect.height += event.pos[1] - old_mouse_y
                                 old_mouse_y = event.pos[1]                  
 
-                            if main.current_rect.height < 20:
-                                main.current_rect.height = 20
+                            if main.current_rect.height < main.maximum_resizing:
+                                main.current_rect.height = main.maximum_resizing
                         return
                     except Exception:
                         pass
@@ -215,8 +217,8 @@ while True:
                                 main.current_rect.width += event.pos[0] - old_mouse_x
                                 old_mouse_x = event.pos[0]
 
-                            if main.current_rect.width < 20:
-                                main.current_rect.width = 20
+                            if main.current_rect.width < main.maximum_resizing:
+                                main.current_rect.width = main.maximum_resizing
                         return    
                     except Exception:
                         pass
@@ -382,3 +384,4 @@ while True:
                 main.undo_action()
 
     main.display()
+    
