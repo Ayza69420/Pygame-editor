@@ -32,6 +32,8 @@ All you gotta do is run the "main.py" file in the main folder. When done, all th
 *S = Save Data*  
 *C = Clear Data*  
 *E = Create New Rect*  
+*Z = Redo Delete*
+*Y = Undo Delete*
 *R = Remove Object*  
 *T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)*  
 
