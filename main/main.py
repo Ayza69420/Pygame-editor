@@ -290,7 +290,7 @@ while True:
                 else:
                     cond = False
 
-                    x = TEXT(24, "", main)
+                    x = TEXT(28, "", main, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
                     main.text.append(x)
 
                 listening_for_keys = True
