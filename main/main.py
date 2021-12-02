@@ -18,7 +18,6 @@ class MAIN:
             exit()
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
-        self.clock = pygame.time.Clock()
 
         self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)] 
         self.text = []
@@ -36,29 +35,8 @@ class MAIN:
 
         self.create_rect()
         self.create_text()
-        self.render_text()
 
-        pygame.display.update()
-        self.clock.tick(60)
-
-    def render_text(self):
-        font = pygame.font.SysFont('freesansbold.ttf',32)
-        text = font.render(f'Position: ? | Size:  (Width: ? | Height: ?)',False,(0,0,0))
-        
-        try:
-            if self.currently_interacting == 'rect' and self.current_rect in main.rects:
-                text = font.render(f'Position: ({self.current_rect.x},{self.current_rect.y}) | Size:  (Width: {self.current_rect.width} | Height: {self.current_rect.height})',False,(0,0,0))
-            elif self.currently_interacting == 'text' and self.current_text in main.text:
-                size = self.current_text.obj.size(self.current_text.text)
-                w = size[0]
-                h = size[1]
-
-                text = font.render(f'Position: ({self.current_text.x},{self.current_text.y}) | Size:  (Width: {w} | Height: {h})',False,(0,0,0))
-        except:
-            text = font.render(f'Position: ? | Size:  (Width: ? | Height: ?)',False,(0,0,0))
-
-
-        self.window.blit(text, (10, self.window_height-25))
+        pygame.display.flip()
 
     def create_rect(self):
         if self.rects:
@@ -269,15 +247,14 @@ while True:
 
                     Thread(target=drag_rect).start()
 
-                else:    
-                    try:
-
+                else:
+                    if main.current_text:
                         if (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
                             if not listening_for_keys:
                                     cond = True
 
                             def drag_text():
-                                
+
 
                                 old_mouse_x = event.pos[0]
                                 old_mouse_y = event.pos[1]
@@ -291,13 +268,10 @@ while True:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
 
-
                                 except Exception:
                                     pass
                                 
                             Thread(target=drag_text).start()
-                    except Exception:
-                        pass
 
 
         if event.type == pygame.MOUSEBUTTONUP and dragging:
@@ -376,7 +350,7 @@ while True:
             # rects
 
             elif event.unicode == 'e':
-                x = RECT(25, 25, 100, 50, main)
+                x = RECT(main.window_width/2-50, main.window_height/2-50, 100, 50, main)
                 main.rects.append(x)                
             
             elif event.unicode == 'r':
