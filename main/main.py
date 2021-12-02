@@ -352,7 +352,7 @@ while True:
             # rects
 
             elif event.unicode == 'e':
-                x = RECT(main.window_width/2-50, main.window_height/2-50, 100, 50, main)
+                x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 100, 50, main)
                 main.rects.append(x)                
             
             elif event.unicode == 'r':
