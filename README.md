@@ -4,10 +4,14 @@ Made to help you create UI using pygame in python, gonna add way more to this pr
 
 Mainly based on your keyboard, as everything is based on hotkeys. However, you need your mouse to scale rects and move things around.
 
+# How to use
+
+All you gotta do is run the "main.py" file in the main folder. When done, all the objects information will be stored in the "info.txt" file.
+
 # To-do
 
 - Add coloring
-- Ability to get everything's information on close
+- ~~Ability to get everything's information on close~~
 - ~~Saving~~
 - ~~Create Text~~
 
