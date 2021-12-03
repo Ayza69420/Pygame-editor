@@ -30,6 +30,7 @@ class MAIN:
 
         self.undo = []
         self.redo = []
+        self.clipboard = None
 
 
     def display(self):
@@ -50,20 +51,36 @@ class MAIN:
             for text in self.text:
                 text.create()
 
+    def delete_object(self):
+        try:
+            if self.currently_interacting == 'rect':
+                self.redo.append({"rect_deleted": self.current_rect})
+
+                del self.rects[self.rects.index(self.current_rect)]
+            elif self.currently_interacting == 'text':
+                self.redo.append({"text_deleted": self.current_text})
+
+                del self.text[self.text.index(self.current_text)]
+                self.current_text = None
+                cond = False
+
+        except Exception:
+            pass
+
     def undo_action(self):
         try:
             action = self.undo[len(self.undo)-1]
 
             def del_and_append():
                 self.redo.append(action)
-                del self.undo[len(self.undo)-1]
+                self.undo.pop(len(self.undo)-1)
 
             if "rect_deleted" in action:
                 del self.rects[self.rects.index(action["rect_deleted"])]
 
                 del_and_append()
             elif "text_deleted" in action:
-                del self.rects[main.text.index(action["text_deleted"])]
+                del self.rects[self.text.index(action["text_deleted"])]
 
                 del_and_append()
 
@@ -72,11 +89,12 @@ class MAIN:
 
     def redo_action(self):
         try:
-            action = self.redo[len(self.redo)-1]
             
+            action = self.redo[len(self.redo)-1]
+
             def del_and_append():
                 self.undo.append(action)
-                del self.redo[len(self.redo)-1]
+                self.redo.pop(len(self.redo)-1)
             
             if "rect_deleted" in action:
                 self.rects.append(action["rect_deleted"])
@@ -89,6 +107,38 @@ class MAIN:
             
         except Exception:
             pass
+
+    def erase(self):
+        self.rects = []
+        self.text = []
+
+    def copy(self):
+        if self.currently_interacting == 'rect':
+            self.clipboard = {'rect':self.current_rect}
+        elif self.currently_interacting == 'text':
+            self.clipboard = {'text':self.current_text}
+
+    def paste(self):
+        if 'text' in self.clipboard:
+            self.make_text(self.clipboard['text'].size, self.clipboard['text'].text)
+        elif 'rect' in self.clipboard:
+            self.make_rect(self.clipboard['rect'].width, self.clipboard['rect'].height)
+
+    def cut(self):
+        self.copy()
+        self.delete_object()
+
+    def make_rect(self, width=100, height=50):
+        x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], width, height, main)
+        self.rects.append(x) 
+
+        return x
+
+    def make_text(self, size=28, text=""):
+        x = TEXT(size, text, main, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        self.text.append(x)
+
+        return x
 
 
 main = MAIN()
@@ -107,12 +157,19 @@ print("""
 | HOTKEYS  
 |
 | S = Save Data
-| C = Clear Data	    
-| E = Create New Rect
+| N = Clear Data	    
 | R = Remove Object
 | Z = Redo Delete
 | Y = Undo Delete
+| F = Clear everything (Cannot be undone)
+| C = Copy
+| V = Paste
+| X = Cut
+|
+| OBJECTS HOTKEYS
+|
 | T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
+| E = Create New Rect
 |
 | TEXT CONTROL HOTKEYS
 |
@@ -290,8 +347,7 @@ while True:
                 else:
                     cond = False
 
-                    x = TEXT(28, "", main, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-                    main.text.append(x)
+                    x = main.make_text()
 
                 listening_for_keys = True
 
@@ -299,7 +355,7 @@ while True:
             elif event.key == pygame.K_RETURN and listening_for_keys:
                 if cond and main.current_text:
                     cond = False
-                    
+
                 listening_for_keys = False
                 listening_for_size_change = False
 
@@ -352,29 +408,15 @@ while True:
             # rects
 
             elif event.unicode == 'e':
-                x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 100, 50, main)
-                main.rects.append(x)                
+                main.make_rect()              
             
             elif event.unicode == 'r':
-                try:
-                    if main.currently_interacting == 'rect':
-                        main.redo.append({"rect_deleted": main.current_rect})
-
-                        del main.rects[main.rects.index(main.current_rect)]
-                    elif main.currently_interacting == 'text':
-                        main.redo.append({"text_deleted": main.current_text})
-
-                        del main.text[main.text.index(main.current_text)]
-                        main.current_text = None
-                        cond = False
-
-                except Exception:
-                    pass
+                main.delete_object()
             
             elif event.unicode == 's':
                 data.save_data()
 
-            elif event.unicode == 'c':
+            elif event.unicode == 'n':
                 data.clear_data()
 
             elif event.unicode == 'z' and main.redo:
@@ -382,6 +424,19 @@ while True:
                   
             elif event.unicode == 'y' and main.undo:
                 main.undo_action()
+
+            elif event.unicode == 'f':
+                main.erase()
+
+            elif event.unicode == 'c':
+                main.copy()
+
+            elif event.unicode == 'v':
+                main.paste()
+
+            elif event.unicode == 'x':
+                main.cut()
+            
 
     main.display()
     
