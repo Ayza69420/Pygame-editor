@@ -300,7 +300,6 @@ while True:
 
             elif event.unicode == 'x':
                 main.cut()
-            
 
     main.display()
     
