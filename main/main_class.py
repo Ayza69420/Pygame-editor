@@ -14,6 +14,9 @@ class MAIN:
             exit()
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
+        pygame.display.set_caption('Pygame editor')
+
+        self.display_objects = [self.create_rect,self.create_text]
 
         self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)] 
         self.text = []
@@ -28,13 +31,15 @@ class MAIN:
         self.redo = []
         self.clipboard = None
 
+        self.fill = [0,0,0]
+
 
     def display(self):
         self.window.fill((255,255,255))
 
-        self.create_rect()
-        self.create_text()
-
+        for i in self.display_objects:
+            i()
+        
         pygame.display.flip()
 
     def create_rect(self):
