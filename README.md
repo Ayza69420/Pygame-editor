@@ -16,6 +16,7 @@ All you gotta do is run the "main.py" file in the main folder. When done using t
 - Add an error logging file  
 - Add ability to change text font  
 - Create help website, and create a "?" hotkey for it that redirects to it
+- Auto Repair when getting data fails (AKA empty json file)
 - ~~Create Copy, paste and cut~~
 - ~~Ability to get everything's information on close~~
 - ~~Saving~~
