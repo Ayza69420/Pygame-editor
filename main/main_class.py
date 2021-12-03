@@ -48,19 +48,26 @@ class MAIN:
                 text.create()
 
     def delete_object(self):
+        x, y = pygame.mouse.get_pos()
+        
         try:
-            if self.currently_interacting == 'rect':
-                self.redo.append({"rect_deleted": self.current_rect})
+            for i in self.rects:
+                if i.collidepoint(x, y):
+                    self.redo.append({"rect_deleted": i})
 
-                del self.rects[self.rects.index(self.current_rect)]
-            elif self.currently_interacting == 'text':
-                self.redo.append({"text_deleted": self.current_text})
+                    del self.rects[self.rects.index(i)]
+                    return
+            
+            for i in self.text:
+                if (x > i.x and x <= i.x+i.obj.size(i.text)[0]+5) and (y > i.y and y <= i.y+i.obj.size(i.text)[1]+5):
+                    self.redo.append({"text_deleted": i})
 
-                del self.text[self.text.index(self.current_text)]
-                self.current_text = None
-                cond = False
+                    del self.text[self.text.index(i)]
+                    self.current_text = None
 
-        except Exception:
+                    return
+
+        except Exception :
             pass
 
     def undo_action(self):
