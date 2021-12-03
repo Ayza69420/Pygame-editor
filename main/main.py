@@ -64,8 +64,8 @@ while True:
             exit()
 
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            
+        if event.type == pygame.MOUSEBUTTONDOWN:     
+
             for i in main.rects:
                 if i.collidepoint(event.pos):
                     main.current_rect = i
@@ -76,8 +76,7 @@ while True:
                 if (event.pos[0] > i.x and event.pos[0] <= i.x+i.obj.size(i.text)[0]+5) and (event.pos[1] > i.y and event.pos[1] <= i.y+i.obj.size(i.text)[1]+5):
                     main.current_text = i
 
-                    main.currently_interacting = 'text'
-
+                    main.currently_interacting = 'text'  
 
             dragging = True
            
