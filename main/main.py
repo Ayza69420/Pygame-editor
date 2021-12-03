@@ -76,11 +76,21 @@ class MAIN:
                 self.undo.pop(len(self.undo)-1)
 
             if "rect_deleted" in action:
-                del self.rects[self.rects.index(action["rect_deleted"])]
+                self.rects.pop(self.rects.index(action["rect_deleted"]))
 
                 del_and_append()
             elif "text_deleted" in action:
-                del self.rects[self.text.index(action["text_deleted"])]
+                self.rects.pop(self.text.index(action["text_deleted"]))
+
+                del_and_append()
+
+            elif "rect_created" in action:
+                self.rects.append(action["rect_created"])
+
+                del_and_append()
+
+            elif "text_created" in action:
+                self.text.append(action["text_created"])
 
                 del_and_append()
 
@@ -102,6 +112,16 @@ class MAIN:
                 del_and_append()
             elif "text_deleted" in action:
                 self.text.append(action["text_deleted"])
+
+                del_and_append()
+
+            elif "rect_created" in action:
+                self.rects.remove(action["rect_created"])
+
+                del_and_append()
+
+            elif "text_created" in action:
+                self.text.remove(action["text_created"])
 
                 del_and_append()
             
@@ -130,12 +150,15 @@ class MAIN:
 
     def make_rect(self, width=100, height=50):
         x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], width, height, main)
+        self.redo.append({"rect_created": x})
         self.rects.append(x) 
 
         return x
 
     def make_text(self, size=28, text=""):
+        
         x = TEXT(size, text, main, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        self.redo.append({"text_created": x})
         self.text.append(x)
 
         return x
@@ -158,9 +181,8 @@ print("""
 |
 | S = Save Data
 | N = Clear Data	    
-| R = Remove Object
-| Z = Redo Delete
-| Y = Undo Delete
+| Z = Redo
+| Y = Undo
 | F = Clear everything (Cannot be undone)
 | C = Copy
 | V = Paste
@@ -170,6 +192,7 @@ print("""
 |
 | T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
 | E = Create New Rect
+| R = Remove Object
 |
 | TEXT CONTROL HOTKEYS
 |
