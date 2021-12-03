@@ -32,8 +32,8 @@ All you gotta do is run the "main.py" file in the main folder. When done, all th
 
 *S = Save Data*  
 *N = Clear Data*  
-*Z = Redo Delete*  
-*Y = Undo Delete*  
+*Z = Redo*  
+*Y = Undo*  
 *F = Clear everything (Cannot be undone)*  
 *C = Copy*  
 *V = Paste*  
