@@ -2,7 +2,6 @@ import pygame
 from threading import Thread
 
 from data import data
-from objects import RECT, TEXT
 from main_class import MAIN
 
 pygame.init()
