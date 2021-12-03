@@ -11,7 +11,7 @@ All you gotta do is run the "main.py" file in the main folder. When done, all th
 # To-do
 
 - Add coloring
-- Create Copy, paste and cut
+- ~~Create Copy, paste and cut~~
 - ~~Ability to get everything's information on close~~
 - ~~Saving~~
 - ~~Create Text~~
