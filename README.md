@@ -42,7 +42,7 @@ All you gotta do is run the "main.py" file in the main folder. When done using t
 *V = Paste*  
 *X = Cut*  
 
-***OBJECTS HOTKEYS***
+***OBJECTS HOTKEYS***  
 *E = Create New Rect*  
 *T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)*  
 *R = Remove Object*  
