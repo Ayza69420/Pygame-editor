@@ -1,4 +1,4 @@
-# Pygame visualizer
+# Pygame editor
 
 Made to help you create UI using pygame in python, gonna add way more to this project.
 
