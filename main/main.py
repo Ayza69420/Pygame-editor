@@ -299,9 +299,9 @@ while True:
             elif event.key == pygame.K_RETURN and listening_for_keys:
                 if cond and main.current_text:
                     cond = False
-                    listening_for_keys = False
-                else:
-                    listening_for_keys = False
+                    
+                listening_for_keys = False
+                listening_for_size_change = False
 
             elif event.key == pygame.K_ESCAPE and not listening_for_size_change and listening_for_keys:
                 listening_for_size_change = True
