@@ -4,15 +4,13 @@ pygame.init()
 
 class RECT(pygame.Rect):
     def __init__(self, x, y, width, height, main):
+        super(RECT, self).__init__(x, y, width, height)
+
         self.main = main
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
 
     def create(self):
         self.rect = pygame.draw.rect(self.main.window, (0,0,0),pygame.Rect(self.x,self.y,self.width,self.height))
-
+        
 class TEXT:
     def __init__(self, size, text, main, x, y):
         self.text = text
