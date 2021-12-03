@@ -2,7 +2,7 @@
 
 Made to help you create UI using pygame in python, gonna add way more to this project.
 
-Mainly based on your keyboard, as everything is based on hotkeys. However, you need your mouse to scale rects and move things around.
+Mainly based on your keyboard, as everything is based on hotkeys. However, you need your mouse to scale and move objects around.
 
 # How to use
 
