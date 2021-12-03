@@ -1,4 +1,16 @@
-import pygame
+import os
+
+try:
+    import pygame
+except ModuleNotFoundError:
+    os.system("pip install pygame")    
+
+    print('Pygame auto installation finished, you may restart the program now.')
+except ImportError:
+    os.system("pip install pygame")    
+
+    print('Pygame auto installation finished, you may restart the program now.')
+    
 from threading import Thread
 
 from data import data

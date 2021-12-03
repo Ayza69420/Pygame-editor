@@ -6,18 +6,24 @@ class data:
         self.main = main
 
     def get_data(self):
-        with open('data.json', 'r') as data:
-            data = json.loads(data.read())
+        try:
+            with open('data.json', 'r') as data:
+                data = json.loads(data.read())
 
-            if data != None:
-                for i in data:
-                    if i['type'] == 'rect':
-                        x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
-                        self.main.rects.append(x)
-                    
-                    elif i['type'] == 'text':
-                        x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'])
-                        self.main.text.append(x)
+                if data:
+                    for i in data:
+                        if i['type'] == 'rect':
+                            x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
+                            self.main.rects.append(x)
+
+                        elif i['type'] == 'text':
+                            x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'])
+                            self.main.text.append(x)
+        except Exception:
+            with open('data.json','w') as data:
+                data.write(json.dumps([]))
+
+                print('Failed to retrieve data.')
 
     def save_data(self):
         with open('data.json', 'w') as data:
