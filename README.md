@@ -33,16 +33,16 @@ All you gotta do is run the "main.py" file in the main folder. When done, all th
 *S = Save Data*  
 *N = Clear Data*  
 *Z = Redo Delete*  
-*Y = Undo Delete*
-*F = Clear everything (Cannot be undone)
-*C = Copy*
-*V = Paste*
-*X = Cut*
+*Y = Undo Delete*  
+*F = Clear everything (Cannot be undone)  
+*C = Copy*  
+*V = Paste*  
+*X = Cut*  
 
 ***OBJECTS HOTKEYS***
 *E = Create New Rect*  
 *T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)*  
-*R = Remove Object*
+*R = Remove Object*  
 
 ***TEXT CONTROL HOTKEYS***
 
