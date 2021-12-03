@@ -50,3 +50,4 @@ All you gotta do is run the "main.py" file in the main folder. When done, all th
 *Enter = Finish/End*  
 *Escape (esc) = Change text size*  
 *Escape (esc) again = Finish/End Changing*  
+
