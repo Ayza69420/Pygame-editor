@@ -13,7 +13,6 @@ All you gotta do is run the "main.py" file in the main folder. When done using t
 - Add coloring
 - Create settings  
 - Add images  
-- Add an error logging file  
 - Add ability to change text font  
 - Create help website, and create a "?" hotkey for it that redirects to it
 - ~~Create Copy, paste and cut~~
