@@ -1,4 +1,5 @@
 import pygame
+import json
 
 from objects import RECT, TEXT
 
@@ -12,6 +13,9 @@ class MAIN:
         except AssertionError:
             print('Width and height must be atleast 600.')
             exit()
+
+        self.debug_mode = False
+        self.auto_save = False
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
         pygame.display.set_caption('Pygame editor')
@@ -30,9 +34,6 @@ class MAIN:
         self.undo = []
         self.redo = []
         self.clipboard = None
-
-        self.fill = [0,0,0]
-
 
     def display(self):
         self.window.fill((255,255,255))
@@ -72,8 +73,10 @@ class MAIN:
 
                     return
 
-        except Exception :
-            pass
+        except Exception as error:
+            with open('debug.txt', 'w') as debug:
+                with open('debug.txt', 'r') as _debug:
+                    debug.write(_debug.read()+'\n'+error)
 
     def undo_action(self):
         try:
@@ -102,8 +105,10 @@ class MAIN:
 
                 del_and_append()
 
-        except Exception:
-            pass
+        except Exception as error:
+            with open('debug.txt', 'w') as debug:
+                with open('debug.txt', 'r') as _debug:
+                    debug.write(_debug.read()+'\n'+error)
 
     def redo_action(self):
         try:
@@ -133,8 +138,10 @@ class MAIN:
 
                 del_and_append()
             
-        except Exception:
-            pass
+        except Exception as error:
+            with open('debug.txt', 'w') as debug:
+                with open('debug.txt', 'r') as _debug:
+                    debug.write(_debug.read()+'\n'+error)
 
     def erase(self):
         self.rects = []
@@ -170,3 +177,11 @@ class MAIN:
         self.text.append(x)
 
         return x
+
+    def setup_settings(self):
+        with open('settings.json', 'r') as sett:
+            settings = json.loads(sett.read())
+
+            self.maximum_resizing = settings['maximum_resizing']
+            self.debug_mode = settings['debug_mode']
+            self.auto_save = settings['auto_save']
