@@ -19,8 +19,10 @@ from main_class import MAIN
 pygame.init()
 
 main = MAIN()
-data = data(main)
 
+main.setup_settings()
+
+data = data(main)
 data.get_data()
 
 selected = False
@@ -59,6 +61,9 @@ print("""
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            if main.auto_save:
+                data.save_data()
+                
             with open('info.txt', 'w') as info:
                 info_to_write = ""
 
@@ -72,7 +77,7 @@ while True:
                 info.write(info_to_write)
             
             pygame.quit()
-            exit()
+            break
 
 
         if event.type == pygame.MOUSEBUTTONDOWN:     
@@ -114,8 +119,10 @@ while True:
                                 main.current_rect.height = main.maximum_resizing
                             if main.current_rect.width < main.maximum_resizing:
                                 main.current_rect.width = main.maximum_resizing
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        with open('debug.txt', 'w') as debug:
+                            with open('debug.txt', 'r') as _debug:
+                                debug.write(_debug.read()+'\n'+error)
 
                 Thread(target=bottom_right).start()
 
@@ -133,8 +140,10 @@ while True:
                             if main.current_rect.height < main.maximum_resizing:
                                 main.current_rect.height = main.maximum_resizing
                         return
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        with open('debug.txt', 'w') as debug:
+                            with open('debug.txt', 'r') as _debug:
+                                debug.write(_debug.read()+'\n'+error)
 
                 Thread(target=height).start()
 
@@ -153,8 +162,10 @@ while True:
                             if main.current_rect.width < main.maximum_resizing:
                                 main.current_rect.width = main.maximum_resizing
                         return    
-                    except Exception:
-                        pass
+                    except Exception as error:
+                        with open('debug.txt', 'w') as debug:
+                            with open('debug.txt', 'r') as _debug:
+                                debug.write(_debug.read()+'\n'+error)
 
 
                 Thread(target=width).start()
@@ -177,8 +188,10 @@ while True:
                                     main.current_rect.y += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]
 
-                        except Exception:
-                            pass
+                        except Exception as error:
+                            with open('debug.txt', 'w') as debug:
+                                with open('debug.txt', 'r') as _debug:
+                                    debug.write(_debug.read()+'\n'+error)
 
                     Thread(target=drag_rect).start()
 
@@ -204,7 +217,9 @@ while True:
                                             old_mouse_y = event.pos[1]
 
                                 except Exception:
-                                    pass
+                                    with open('debug.txt', 'w') as debug:
+                                        with open('debug.txt', 'r') as _debug:
+                                            debug.write(_debug.read()+'\n'+error)
                                 
                             Thread(target=drag_text).start()
 
@@ -252,7 +267,11 @@ while True:
                             main.current_text.size = int(size_to_change)
                         else:
                             x.size = int(size_to_change)
-                    except Exception:
+                    except Exception as error:
+                        with open('debug.txt', 'w') as debug:
+                            with open('debug.txt', 'r') as _debug:
+                                debug.write(_debug.read()+'\n'+error)
+
                         print('An error occurred while trying to change the size.')
                         size_to_change = ""   
 
@@ -272,6 +291,10 @@ while True:
                     else:
                         x.size = int(size_to_change)
                 except Exception:
+                    with open('debug.txt', 'w') as debug:
+                        with open('debug.txt', 'r') as _debug:
+                            debug.write(_debug.read()+'\n'+error)
+
                     print('An error occurred while trying to change the size.')
                     size_to_change = ""
 
@@ -314,4 +337,4 @@ while True:
                 main.cut()
 
     main.display()
-    
+data.save_data()
