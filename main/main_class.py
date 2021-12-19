@@ -5,20 +5,20 @@ from objects import RECT, TEXT
 
 class MAIN:
     def __init__(self):
-        self.window_height = int(input('Window height?\n'))
-        self.window_width = int(input('Window width?\n'))
+        self.window_height = int(input("Window height?\n"))
+        self.window_width = int(input("Window width?\n"))
 
         try:
             assert(self.window_height >= 600 and self.window_width >= 600)
         except AssertionError:
-            print('Width and height must be atleast 600.')
+            print("Width and height must be atleast 600.")
             exit()
 
         self.debug_mode = False
         self.auto_save = False
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
-        pygame.display.set_caption('Pygame editor')
+        pygame.display.set_caption("Pygame editor")
 
         self.display_objects = [self.create_rect,self.create_text]
 
@@ -74,9 +74,9 @@ class MAIN:
                     return
 
         except Exception as error:
-            with open('debug.txt', 'w') as debug:
-                with open('debug.txt', 'r') as _debug:
-                    debug.write(_debug.read()+'\n'+error)
+            with open("debug.txt", "w") as debug:
+                with open("debug.txt", "r") as _debug:
+                    debug.write(_debug.read()+"\n"+error)
 
     def undo_action(self):
         try:
@@ -106,9 +106,9 @@ class MAIN:
                 del_and_append()
 
         except Exception as error:
-            with open('debug.txt', 'w') as debug:
-                with open('debug.txt', 'r') as _debug:
-                    debug.write(_debug.read()+'\n'+error)
+            with open("debug.txt", "w") as debug:
+                with open("debug.txt", "r") as _debug:
+                    debug.write(_debug.read()+"\n"+error)
 
     def redo_action(self):
         try:
@@ -139,25 +139,25 @@ class MAIN:
                 del_and_append()
             
         except Exception as error:
-            with open('debug.txt', 'w') as debug:
-                with open('debug.txt', 'r') as _debug:
-                    debug.write(_debug.read()+'\n'+error)
+            with open("debug.txt", "w") as debug:
+                with open("debug.txt", "r") as _debug:
+                    debug.write(_debug.read()+"\n"+error)
 
     def erase(self):
         self.rects = []
         self.text = []
 
     def copy(self):
-        if self.currently_interacting == 'rect':
-            self.clipboard = {'rect':self.current_rect}
-        elif self.currently_interacting == 'text':
-            self.clipboard = {'text':self.current_text}
+        if self.currently_interacting == "rect":
+            self.clipboard = {"rect":self.current_rect}
+        elif self.currently_interacting == "text":
+            self.clipboard = {"text":self.current_text}
 
     def paste(self):
-        if 'text' in self.clipboard:
-            self.make_text(self.clipboard['text'].size, self.clipboard['text'].text)
-        elif 'rect' in self.clipboard:
-            self.make_rect(self.clipboard['rect'].width, self.clipboard['rect'].height)
+        if "text" in self.clipboard:
+            self.make_text(self.clipboard["text"].size, self.clipboard["text"].text)
+        elif "rect" in self.clipboard:
+            self.make_rect(self.clipboard["rect"].width, self.clipboard["rect"].height)
 
     def cut(self):
         self.copy()
@@ -179,9 +179,12 @@ class MAIN:
         return x
 
     def setup_settings(self):
-        with open('settings.json', 'r') as sett:
+        with open("settings.json", "r") as sett:
             settings = json.loads(sett.read())
 
-            self.maximum_resizing = settings['maximum_resizing']
-            self.debug_mode = settings['debug_mode']
-            self.auto_save = settings['auto_save']
+            self.debug_mode = settings["debug_mode"]
+            self.auto_save = settings["auto_save"]
+
+    def debug(self, error):
+        with open("debug.txt", "a") as debug:
+            debug.write(str(error)+"\n")
