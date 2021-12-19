@@ -33,7 +33,8 @@ All you gotta do is run the "main.py" file in the main folder. When done using t
 
 ***MAIN HOTKEYS***
 
-*S = Save Data*  
+*S = Settings*  
+*D = Save Data*  
 *N = Clear Data*  
 *Z = Redo*  
 *Y = Undo*  
