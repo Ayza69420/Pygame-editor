@@ -11,7 +11,7 @@ All you gotta do is run the "main.py" file in the main folder. When done using t
 # To-do
 
 - Add coloring
-- Create settings  
+- ~~Create settings~~  
 - Add images  
 - Add ability to change text font  
 - Create help website, and create a "?" hotkey for it that redirects to it
