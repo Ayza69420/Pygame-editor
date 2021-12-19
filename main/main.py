@@ -5,11 +5,11 @@ try:
 except ModuleNotFoundError:
     os.system("pip install pygame")    
 
-    print('Pygame auto installation finished, you may restart the program now.')
+    print("Pygame auto installation finished, you may restart the program now.")
 except ImportError:
     os.system("pip install pygame")    
 
-    print('Pygame auto installation finished, you may restart the program now.')
+    print("Pygame auto installation finished, you may restart the program now.")
     
 from threading import Thread
 
@@ -46,7 +46,7 @@ print("""
 |
 | OBJECTS HOTKEYS
 |
-| T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
+| T = Create text T = Create text (This won"t create text if you select on an existing text and hover over it, instead edit it)
 | E = Create New Rect
 | R = Remove Object
 |
@@ -64,7 +64,7 @@ while True:
             if main.auto_save:
                 data.save_data()
                 
-            with open('info.txt', 'w') as info:
+            with open("info.txt", "w") as info:
                 info_to_write = ""
 
                 for i,v in enumerate(main.rects):
@@ -86,13 +86,13 @@ while True:
                 if i.collidepoint(event.pos):
                     main.current_rect = i
 
-                    main.currently_interacting = 'rect'
+                    main.currently_interacting = "rect"
                     
             for i in main.text:
                 if (event.pos[0] > i.x and event.pos[0] <= i.x+i.obj.size(i.text)[0]+5) and (event.pos[1] > i.y and event.pos[1] <= i.y+i.obj.size(i.text)[1]+5):
                     main.current_text = i
 
-                    main.currently_interacting = 'text'  
+                    main.currently_interacting = "text"  
 
             dragging = True
            
@@ -104,25 +104,18 @@ while True:
                         old_mouse_x = event.pos[0]
                         old_mouse_y = event.pos[1]
 
-                        while dragging:                                
-                            if old_mouse_x != event.pos[0]:
-                                main.current_rect.width += (event.pos[0] - old_mouse_x)
-                                old_mouse_x = event.pos[0]
+                        while dragging:         
+                            if main.current_rect.width > main.maximum_resizing and main.current_rect.height > main.maximum_resizing:                       
+                                if old_mouse_x != event.pos[0]:
+                                    main.current_rect.width += (event.pos[0] - old_mouse_x)
+                                    old_mouse_x = event.pos[0]
 
-                            if old_mouse_y != event.pos[1]:
-                                main.current_rect.height += (event.pos[1] - old_mouse_y)
-                                old_mouse_y = event.pos[1]
+                                if old_mouse_y != event.pos[1]:
+                                    main.current_rect.height += (event.pos[1] - old_mouse_y)
+                                    old_mouse_y = event.pos[1]
 
-                            
-
-                            if main.current_rect.height < main.maximum_resizing:
-                                main.current_rect.height = main.maximum_resizing
-                            if main.current_rect.width < main.maximum_resizing:
-                                main.current_rect.width = main.maximum_resizing
                     except Exception as error:
-                        with open('debug.txt', 'w') as debug:
-                            with open('debug.txt', 'r') as _debug:
-                                debug.write(_debug.read()+'\n'+error)
+                        main.debug(error)
 
                 Thread(target=bottom_right).start()
 
@@ -133,17 +126,13 @@ while True:
                         old_mouse_y = event.pos[1]
 
                         while dragging:
-                            if event.pos[1] != old_mouse_y: 
-                                main.current_rect.height += event.pos[1] - old_mouse_y
-                                old_mouse_y = event.pos[1]                  
-
-                            if main.current_rect.height < main.maximum_resizing:
-                                main.current_rect.height = main.maximum_resizing
+                            if main.current_rect.height > main.maximum_resizing:
+                                if event.pos[1] != old_mouse_y: 
+                                    main.current_rect.height += event.pos[1] - old_mouse_y
+                                    old_mouse_y = event.pos[1]                  
                         return
                     except Exception as error:
-                        with open('debug.txt', 'w') as debug:
-                            with open('debug.txt', 'r') as _debug:
-                                debug.write(_debug.read()+'\n'+error)
+                        main.debug(error)
 
                 Thread(target=height).start()
 
@@ -155,17 +144,14 @@ while True:
                         old_mouse_x = event.pos[0]
 
                         while dragging:
-                            if event.pos[0] != old_mouse_x:
-                                main.current_rect.width += event.pos[0] - old_mouse_x
-                                old_mouse_x = event.pos[0]
+                            if main.current_rect.width > main.maximum_resizing:
+                                if event.pos[0] != old_mouse_x:
+                                    main.current_rect.width += event.pos[0] - old_mouse_x
+                                    old_mouse_x = event.pos[0]
 
-                            if main.current_rect.width < main.maximum_resizing:
-                                main.current_rect.width = main.maximum_resizing
                         return    
                     except Exception as error:
-                        with open('debug.txt', 'w') as debug:
-                            with open('debug.txt', 'r') as _debug:
-                                debug.write(_debug.read()+'\n'+error)
+                        main.debug(error)
 
 
                 Thread(target=width).start()
@@ -189,9 +175,7 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                         except Exception as error:
-                            with open('debug.txt', 'w') as debug:
-                                with open('debug.txt', 'r') as _debug:
-                                    debug.write(_debug.read()+'\n'+error)
+                            main.debug(error)
 
                     Thread(target=drag_rect).start()
 
@@ -217,9 +201,7 @@ while True:
                                             old_mouse_y = event.pos[1]
 
                                 except Exception:
-                                    with open('debug.txt', 'w') as debug:
-                                        with open('debug.txt', 'r') as _debug:
-                                            debug.write(_debug.read()+'\n'+error)
+                                    main.debug(error)
                                 
                             Thread(target=drag_text).start()
 
@@ -230,7 +212,7 @@ while True:
         if event.type == pygame.KEYDOWN:
 
             # handling text
-            if event.unicode == 't' and not listening_for_keys:
+            if event.unicode == "t" and not listening_for_keys:
                 pos = pygame.mouse.get_pos()
 
                 if main.current_text in main.text and (pos[0] > main.current_text.x and pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (pos[1] > main.current_text.y and pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5) and cond:
@@ -268,11 +250,9 @@ while True:
                         else:
                             x.size = int(size_to_change)
                     except Exception as error:
-                        with open('debug.txt', 'w') as debug:
-                            with open('debug.txt', 'r') as _debug:
-                                debug.write(_debug.read()+'\n'+error)
+                        main.debug(error)
 
-                        print('An error occurred while trying to change the size.')
+                        print("An error occurred while trying to change the size.")
                         size_to_change = ""   
 
                 elif listening_for_keys:
@@ -290,12 +270,10 @@ while True:
                         main.current_text.size = int(size_to_change)
                     else:
                         x.size = int(size_to_change)
-                except Exception:
-                    with open('debug.txt', 'w') as debug:
-                        with open('debug.txt', 'r') as _debug:
-                            debug.write(_debug.read()+'\n'+error)
+                except Exception as error:
+                    main.debug(error)
 
-                    print('An error occurred while trying to change the size.')
+                    print("An error occurred while trying to change the size, size was reseted.")
                     size_to_change = ""
 
             elif listening_for_keys and not listening_for_size_change:
@@ -306,34 +284,34 @@ while True:
                 
             # rects
 
-            elif event.unicode == 'e':
+            elif event.unicode == "e":
                 main.make_rect()              
             
-            elif event.unicode == 'r':
+            elif event.unicode == "r":
                 main.delete_object()
             
-            elif event.unicode == 's':
+            elif event.unicode == "s":
                 data.save_data()
 
-            elif event.unicode == 'n':
+            elif event.unicode == "n":
                 data.clear_data()
 
-            elif event.unicode == 'z' and main.redo:
+            elif event.unicode == "z" and main.redo:
                 main.redo_action()
                   
-            elif event.unicode == 'y' and main.undo:
+            elif event.unicode == "y" and main.undo:
                 main.undo_action()
 
-            elif event.unicode == 'f':
+            elif event.unicode == "f":
                 main.erase()
 
-            elif event.unicode == 'c':
+            elif event.unicode == "c":
                 main.copy()
 
-            elif event.unicode == 'v':
+            elif event.unicode == "v":
                 main.paste()
 
-            elif event.unicode == 'x':
+            elif event.unicode == "x":
                 main.cut()
 
     main.display()
