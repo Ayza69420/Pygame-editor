@@ -18,7 +18,7 @@ class TEXT:
         self.x = x
         self.y = y
         self._size = size
-        self.obj = pygame.font.SysFont('freesansbold.ttf',self._size)
+        self.obj = pygame.font.SysFont("freesansbold.ttf",self._size)
 
     def create(self):         
         self.main.window.blit(self.obj.render(self.text,False,(0,0,0)), (self.x, self.y))
@@ -29,6 +29,9 @@ class TEXT:
 
     @size.setter
     def size(self, size):
-        self._size = size
+        if self._size <= 100:
+            self._size = size
 
-        self.obj = pygame.font.SysFont('freesansbold.ttf',self._size)
+            self.obj = pygame.font.SysFont("freesansbold.ttf",self._size)
+        else:
+            print("Size cannot be greater than 100.")
