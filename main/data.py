@@ -7,49 +7,49 @@ class data:
 
     def get_data(self):
         try:
-            with open('data.json', 'r') as data:
+            with open("data.json", "r") as data:
                 data = json.loads(data.read())
 
                 if data:
                     for i in data:
-                        if i['type'] == 'rect':
-                            x = RECT(i['x'],i['y'],i['width'],i['height'],self.main)
+                        if i["type"] == "rect":
+                            x = RECT(i["x"],i["y"],i["width"],i["height"],self.main)
                             self.main.rects.append(x)
 
-                        elif i['type'] == 'text':
-                            x = TEXT(i['size'],i['text'],self.main,i['x'],i['y'])
+                        elif i["type"] == "text":
+                            x = TEXT(i["size"],i["text"],self.main,i["x"],i["y"])
                             self.main.text.append(x)
         except Exception:
-            with open('data.json','w') as data:
+            with open("data.json","w") as data:
                 data.write(json.dumps([]))
 
-                print('Failed to retrieve data.')
+                print("Failed to retrieve data.")
 
     def save_data(self):
-        with open('data.json', 'w') as data:
+        with open("data.json", "w") as data:
             try:
                 data_to_write = []
 
                 if self.main.rects:
                     for i in self.main.rects:
-                        data_to_write.append({'x': i.x, 'y': i.y, 'width': i.width, 'height': i.height, 'type': 'rect'})
+                        data_to_write.append({"x": i.x, "y": i.y, "width": i.width, "height": i.height, "type": "rect"})
 
                 if self.main.text:
                     for i in self.main.text:
-                        data_to_write.append({'size': i.size, 'text': i.text, 'x': i.x, 'y': i.y, 'type': 'text'})
+                        data_to_write.append({"size": i.size, "text": i.text, "x": i.x, "y": i.y, "type": "text"})
 
                 data.write(json.dumps(data_to_write))
 
-                print('Successfully saved.')
+                print("Successfully saved.")
 
             except Exception as err:
-                with open('data.json','w') as data:
+                with open("data.json","w") as data:
                     data.write(json.dumps([]))
 
-                    print('Failed to save the data, for error:',err)
+                    print("Failed to save the data, for error:",err)
 
     def clear_data(self):
-        with open('data.json', 'w') as data:
+        with open("data.json", "w") as data:
             data.write(json.dumps([]))
 
-            print('Successfully cleared the data')
+            print("Successfully cleared the data")
