@@ -34,12 +34,9 @@ All you gotta do is run the `main.py` file in the main folder. When done using t
 
 ***MAIN HOTKEYS***
 
-*S = Settings*  
-*D = Save Data*  
-*N = Clear Data*  
+*M = Menu (Contains Important stuff, one of them being settings with contain coloring, font changing, etc.)*  
 *Z = Redo*  
 *Y = Undo*  
-*F = Clear everything (Cannot be undone)*  
 *C = Copy*  
 *V = Paste*  
 *X = Cut*  
