@@ -6,12 +6,12 @@ Mainly based on your keyboard, as everything is based on hotkeys. However, you n
 
 # How to run
 
-All you gotta do is run the `main.py` file in the main folder. When done using the program, all the objects information will be stored in the ``info.txt`` file automatically, however if you wanna save the states of each object, you can use the **D** hotkey to save as listed below in the hotkeys.
+All you gotta do is run the `main.py` file in the main folder. When done using the program, all the objects information will be stored in the ``info.txt`` file automatically, however if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
 
 # To-do
 
 - Add coloring in the menu
-- Create Menu
+- ~~Create Menu~~
 - ~~Create settings~~  
 - Add ability to change text font in the menu  
 - Create help website, and create a "?" hotkey for it that redirects to it
