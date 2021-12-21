@@ -14,12 +14,9 @@ except ImportError:
 print("""
 | HOTKEYS  
 |
-| S = Settings
-| D = Save Data
-| N = Clear Data	    
-| Z = Redo
+| M = Menu  
+| Z = Redo (Contains Important stuff, one of them being settings with contain coloring, font changing, etc.)
 | Y = Undo
-| F = Clear everything (Cannot be undone)
 | C = Copy
 | V = Paste
 | X = Cut
