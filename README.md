@@ -8,6 +8,10 @@ Mainly based on your keyboard, as everything is based on hotkeys. However, you n
 
 All you gotta do is run the `main.py` file in the main folder. When done using the program, all the objects information will be stored in the ``info.txt`` file automatically, however if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
 
+# Cloning with git
+
+```git clone https://github.com/Ayza69420/Pygame-editor.git```
+
 # To-do
 
 - Add coloring in the menu
