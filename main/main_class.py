@@ -2,6 +2,7 @@ import pygame
 import json
 
 from objects import RECT, TEXT
+import main_loop
 
 class MAIN:
     def __init__(self):
@@ -41,6 +42,9 @@ class MAIN:
         for i in self.display_objects:
             i()
         
+        if main_loop.opened_menu:
+            main_loop.menu.create_menu()
+
         pygame.display.flip()
 
     def create_rect(self):
