@@ -1,8 +1,6 @@
 # Pygame editor
 
-Made to help you create UI using pygame in python, gonna add way more to this project.
-
-Mainly based on your keyboard, as everything is based on hotkeys. However, you need your mouse to scale and move objects around.
+Pygame editor is made to help you visualize UI in pygame, which will make creating UI much easier. still work in progress.
 
 # How to run
 
