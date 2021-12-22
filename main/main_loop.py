@@ -1,4 +1,5 @@
 import pygame
+import os
 
 from threading import Thread
 
@@ -20,19 +21,39 @@ size_to_change = ""
 listening_for_keys = False
 listening_for_size_change = False
 cond = False
+taking_color_input = False
+color_button = None
+color_to_change = ""
 
 font = pygame.font.Font("Akzidenz-grotesk-roman.ttf",24)
 
 opened_menu = False
 
+class BUTTON(pygame.Rect):
+    def __init__(self, x, y, width, height):
+        super(BUTTON, self).__init__(x, y, width, height)
+        
+        self.color = (54, 57, 63)
+
+    def create(self):
+        pygame.draw.rect(main.window, self.color, pygame.Rect(self.x, self.y, self.width, self.height), 3)
+
+class TEXT:
+    def __init__(self, text, x, y):
+        self.text = text
+        self.main = main
+        self.x = x
+        self.y = y
+        
+    def create(self):         
+        main.window.blit(font.render(self.text,False,(255,255,255)), (self.x, self.y))
+
 class MENU:
     def __init__(self):
         self.width = 150
         self.height = 50
-        self.amount_of_buttons = 3
         self.distance = 25
         self.buttons = []
-        self.button_colors = [(54, 57, 63) for _ in range(self.amount_of_buttons)]
         self.text = {}
 
         self.setup()
@@ -40,21 +61,31 @@ class MENU:
     def create_menu(self):
         self.menu = pygame.draw.rect(main.window, (32, 34, 37),pygame.Rect(0,0, main.window_width, main.window_height))
 
-        for i,v in enumerate(self.buttons):
-            pygame.draw.rect(main.window, self.button_colors[i], v, 3)     
+        for i in self.buttons:
+            i.create()
         
         for i in self.text:
-            main.window.blit(font.render(i,False,(255,255,255)), (self.text[i]["x"], self.text[i]["y"]))
+            self.text[i].create()
 
     def setup(self):
-        self.buttons.append(pygame.Rect(self.distance,50,self.width,self.height))
-        self.buttons.append(pygame.Rect(self.distance,150,self.width,self.height))
-        self.buttons.append(pygame.Rect(self.distance,250,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,50,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,150,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,250,self.width,self.height))
 
-        self.text["Save Data"] = {"x": self.distance*8, "y": 60}
-        self.text["Clear Data"] = {"x": self.distance*8, "y": 160}
-        self.text["Erase"] = {"x": self.distance*8, "y": 260}
-         
+        self.buttons.append(BUTTON(main.window_width-300, main.window_height-100, 50, self.height))
+        self.buttons.append(BUTTON(main.window_width-200, main.window_height-100, 50, self.height))
+        self.buttons.append(BUTTON(main.window_width-100, main.window_height-100, 50, self.height))
+
+        
+        self.text["SD"] = (TEXT("Save Data", self.distance*8, 70))
+        self.text["CD"] = (TEXT("Clear Data", self.distance*8, 170))
+        self.text["E"] = (TEXT("Erase", self.distance*8, 270))
+        self.text["C"] = (TEXT("RGB Color", main.window_width-230, main.window_height-150))
+
+        self.text["R"] = (TEXT(str(main.r), self.buttons[3].x+5, self.buttons[3].y+15))
+        self.text["G"] = (TEXT(str(main.g), self.buttons[4].x+5, self.buttons[4].y+15))
+        self.text["B"] = (TEXT(str(main.b), self.buttons[5].x+5, self.buttons[5].y+15))
+
 menu = MENU()
 
 while True:
@@ -63,11 +94,11 @@ while True:
             if main.auto_save:
                 data.save_data()
                 
-            with open("./info.txt", "w") as info:
+            with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\info.txt", "w") as info:
                 info_to_write = ""
 
                 for i,v in enumerate(main.rects):
-                    info_to_write += f"RECT {i+1}: x: {v.x}, y: {v.y}, width: {v.width}, height: {v.height}\n"          
+                    info_to_write += f"RECT {i+1}: x: {v.x}, y: {v.y}, width: {v.width}, height: {v.height}, color: {v.color}\n"          
 
                 for i,v in enumerate(main.text):
                     info_to_write += f"TEXT {i+1}: text: {v.text}, x: {v.x}, y: {v.y}, text size: {v.size}\n"
@@ -102,6 +133,16 @@ while True:
                             data.clear_data()
                         elif i == 2:
                             main.erase()
+
+            if menu.buttons[3].collidepoint(event.pos) or menu.buttons[4].collidepoint(event.pos) or menu.buttons[5].collidepoint(event.pos):
+                taking_color_input = True
+
+                if menu.buttons[3].collidepoint(event.pos):
+                    color_button = menu.text["R"]
+                if menu.buttons[4].collidepoint(event.pos):
+                    color_button = menu.text["G"]
+                if menu.buttons[5].collidepoint(event.pos):
+                    color_button = menu.text["B"]
 
             dragging = True
            
@@ -220,7 +261,19 @@ while True:
 
         if event.type == pygame.KEYDOWN:
 
-            # handling text
+
+            if taking_color_input:
+                if event.unicode.isdigit() and len(color_to_change) < 3:
+                    color_to_change += event.unicode
+
+                    color_button.text = color_to_change
+
+                    if int(color_to_change) > 255:
+                        color_to_change = ""
+                        color_button.text = color_to_change
+
+                        print("You cannot put more than a value of 255.")
+
             if event.unicode == "t" and not listening_for_keys:
                 pos = pygame.mouse.get_pos()
 
@@ -234,13 +287,25 @@ while True:
                 listening_for_keys = True
 
 
-            elif event.key == pygame.K_RETURN and listening_for_keys:
-                if cond and main.current_text:
-                    cond = False
+            elif event.key == pygame.K_RETURN:
+                if not taking_color_input:
+                    if cond and main.current_text:
+                        cond = False
 
-                listening_for_keys = False
-                listening_for_size_change = False
+                    listening_for_keys = False
+                    listening_for_size_change = False
+                else:
+                    taking_color_input = False
 
+                    if color_button == menu.text["R"]:
+                        main.r = int(color_button.text)
+                    if color_button == menu.text["G"]:
+                        main.g = int(color_button.text)
+                    if color_button == menu.text["B"]:
+                        main.b = int(color_button.text)         
+
+                    color_to_change = ""
+                    
             elif event.key == pygame.K_ESCAPE and not listening_for_size_change and listening_for_keys:
                 listening_for_size_change = True
 
@@ -250,26 +315,29 @@ while True:
                 size_to_change = ""
 
             elif event.key == pygame.K_BACKSPACE:
-                if listening_for_size_change:
-                    size_to_change = size_to_change[:-1]
+                if not taking_color_input:
+                    if listening_for_size_change:
+                        size_to_change = size_to_change[:-1]
 
-                    try:
+                        try:
+                            if cond and main.current_text:
+                                main.current_text.size = int(size_to_change)
+                            else:
+                                x.size = int(size_to_change)
+                        except Exception as error:
+                            main.debug(error)
+
+                            print("An error occurred while trying to change the size.")
+                            size_to_change = ""   
+
+                    elif listening_for_keys:
                         if cond and main.current_text:
-                            main.current_text.size = int(size_to_change)
+                            main.current_text.text = main.current_text.text[:-1]
                         else:
-                            x.size = int(size_to_change)
-                    except Exception as error:
-                        main.debug(error)
-
-                        print("An error occurred while trying to change the size.")
-                        size_to_change = ""   
-
-                elif listening_for_keys:
-                    if cond and main.current_text:
-                        main.current_text.text = main.current_text.text[:-1]
-                    else:
-                        x.text = x.text[:-1]
-                        
+                            x.text = x.text[:-1]
+                else:
+                    color_to_change = color_to_change[:-1]
+                    color_button.text = color_to_change
                     
             elif listening_for_size_change:
                 size_to_change += event.unicode
