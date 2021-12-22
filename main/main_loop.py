@@ -3,8 +3,8 @@ import os
 
 from threading import Thread
 
-from data import data
-from main_class import MAIN
+from main.data import data
+from main.main_class import MAIN
 
 pygame.init()
 
@@ -25,7 +25,7 @@ taking_color_input = False
 color_button = None
 color_to_change = ""
 
-font = pygame.font.Font("Akzidenz-grotesk-roman.ttf",24)
+font = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Akzidenz-grotesk-roman.ttf",24)
 
 opened_menu = False
 
