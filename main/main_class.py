@@ -1,5 +1,6 @@
 import pygame
 import json
+import os
 
 from objects import RECT, TEXT
 import main_loop
@@ -17,13 +18,17 @@ class MAIN:
 
         self.debug_mode = False
         self.auto_save = False
+        
+        self.r = 0
+        self.g = 0
+        self.b = 0
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
         pygame.display.set_caption("Pygame editor")
 
         self.display_objects = [self.create_rect,self.create_text]
 
-        self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self)] 
+        self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self, (self.r, self.g, self.b))] 
         self.text = []
 
         self.maximum_resizing = 5
@@ -35,6 +40,7 @@ class MAIN:
         self.undo = []
         self.redo = []
         self.clipboard = None
+
 
     def display(self):
         self.window.fill((255,255,255))
@@ -78,9 +84,7 @@ class MAIN:
                     return
 
         except Exception as error:
-            with open("debug.txt", "w") as debug:
-                with open("debug.txt", "r") as _debug:
-                    debug.write(_debug.read()+"\n"+error)
+            self.debug(error)
 
     def undo_action(self):
         try:
@@ -110,9 +114,7 @@ class MAIN:
                 del_and_append()
 
         except Exception as error:
-            with open("debug.txt", "w") as debug:
-                with open("debug.txt", "r") as _debug:
-                    debug.write(_debug.read()+"\n"+error)
+            self.debug(error)
 
     def redo_action(self):
         try:
@@ -143,9 +145,7 @@ class MAIN:
                 del_and_append()
             
         except Exception as error:
-            with open("debug.txt", "w") as debug:
-                with open("debug.txt", "r") as _debug:
-                    debug.write(_debug.read()+"\n"+error)
+            self.debug(error)
 
     def erase(self):
         self.rects = []
@@ -168,7 +168,7 @@ class MAIN:
         self.delete_object()
 
     def make_rect(self, width=100, height=50):
-        x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], width, height, self)
+        x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], width, height, self, (self.r, self.b, self.g))
         self.redo.append({"rect_created": x})
         self.rects.append(x) 
 
@@ -190,5 +190,6 @@ class MAIN:
             self.auto_save = settings["auto_save"]
 
     def debug(self, error):
-        with open("debug.txt", "a") as debug:
-            debug.write(str(error)+"\n")
+        if self.debug_mode:
+            with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\debug.txt", "a") as debug:
+                debug.write(str(error)+"\n")
