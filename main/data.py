@@ -29,7 +29,7 @@ class data:
                 self.main.debug(err)
 
     def save_data(self):
-        with open("data.json", "w") as data:
+        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\data.json", "w") as data:
             try:
                 data_to_write = []
 
