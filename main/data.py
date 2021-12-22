@@ -1,7 +1,7 @@
 import json
 import os
 
-from objects import RECT, TEXT
+from main.objects import RECT, TEXT
 
 class data:
     def __init__(self, main):
