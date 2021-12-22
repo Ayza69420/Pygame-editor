@@ -12,7 +12,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 
 # To-do
 
-- Add coloring in the menu
+- ~~Add rect coloring in the menu~~
 - ~~Create Menu~~
 - ~~Create settings~~  
 - Add ability to change text font in the menu  
