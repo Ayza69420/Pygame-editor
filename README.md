@@ -4,7 +4,7 @@ Pygame editor is made to help you visualize UI in pygame, which will make creati
 
 # How to run
 
-All you gotta do is run the `main.py` file. When done using the program, all the objects information will be stored in the ``info.txt`` file automatically, however if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
+All you gotta do is run the `main.py` file. When done using the program, all the objects information will be stored in the ``info.txt`` file automatically which can be found in the ``main`` folder, however if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
 
 # Cloning with git
 
