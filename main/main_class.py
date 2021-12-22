@@ -2,8 +2,8 @@ import pygame
 import json
 import os
 
-from objects import RECT, TEXT
-import main_loop
+from main.objects import RECT, TEXT
+import main.main_loop as main_loop
 
 class MAIN:
     def __init__(self):
@@ -183,7 +183,7 @@ class MAIN:
         return x
 
     def setup_settings(self):
-        with open("settings.json", "r") as sett:
+        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
             settings = json.loads(sett.read())
 
             self.debug_mode = settings["debug_mode"]
