@@ -92,7 +92,7 @@ class MAIN:
 
             def del_and_append():
                 self.redo.append(action)
-                self.undo.pop(len(self.undo)-1)
+                self.undo.pop()
 
             if "rect_deleted" in action:
                 self.rects.pop(self.rects.index(action["rect_deleted"]))
@@ -113,6 +113,13 @@ class MAIN:
 
                 del_and_append()
 
+            elif "rect_changed" in action:
+                self.rects.pop(action["rect_changed"]["index"])
+                self.rects.append(action["rect_changed"]["object"])
+
+                self.redo.append(action["action"])
+                self.undo.pop()
+
         except Exception as error:
             self.debug(error)
 
@@ -123,7 +130,7 @@ class MAIN:
 
             def del_and_append():
                 self.undo.append(action)
-                self.redo.pop(len(self.redo)-1)
+                self.redo.pop()
             
             if "rect_deleted" in action:
                 self.rects.append(action["rect_deleted"])
@@ -143,6 +150,15 @@ class MAIN:
                 self.text.remove(action["text_created"])
 
                 del_and_append()
+
+            elif "rect_changed" in action:
+                self.undo.append({"rect_changed": {"index": len(self.rects)-1, "object": self.copy_rect(self.rects[action["rect_changed"]["index"]])}, "action": action})
+                
+                self.rects.pop(action["rect_changed"]["index"])
+                self.rects.append(action["rect_changed"]["object"])
+                
+                self.redo.pop()  
+
             
         except Exception as error:
             self.debug(error)
@@ -193,3 +209,6 @@ class MAIN:
         if self.debug_mode:
             with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\debug.txt", "a") as debug:
                 debug.write(str(error)+"\n")
+
+    def copy_rect(self, obj):
+        return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color)
