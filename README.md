@@ -22,16 +22,6 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 - ~~Saving~~
 - ~~Create Text~~
 
-# Pygame Installation
-
-**Requirements:**
-
-- pip
-
-**Installation:**
-
-```pip install pygame```
-
 # Hotkeys
 
 ***MAIN HOTKEYS***
