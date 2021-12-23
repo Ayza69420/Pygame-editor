@@ -148,7 +148,8 @@ while True:
            
             if (event.pos[0] > main.current_rect.bottomright[0]-5 and event.pos[0] < main.current_rect.bottomright[0]+5) and (event.pos[1] < main.current_rect.bottomright[1]+5 and event.pos[1] > main.current_rect.bottomright[1]-5):
                 
-        
+                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+
                 def bottom_right():
                     try:
                         old_mouse_x = event.pos[0]
@@ -170,7 +171,8 @@ while True:
                 Thread(target=bottom_right).start()
 
             elif event.pos[1] <= main.current_rect.bottom and event.pos[1] > main.current_rect.bottom-5:
-                
+
+                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})          
                 def height():               
                     try:     
                         old_mouse_y = event.pos[1]
@@ -188,6 +190,8 @@ while True:
 
 
             elif event.pos[0] < main.current_rect.right+5 and event.pos[0] >= main.current_rect.right-5:
+
+                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
 
                 def width():
                     try:
@@ -210,6 +214,8 @@ while True:
 
             else:
                 if main.current_rect.collidepoint(event.pos):
+
+                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
 
                     def drag_rect():
                         old_mouse_x = event.pos[0]
@@ -234,6 +240,8 @@ while True:
                         if (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
                             if not listening_for_keys:
                                     cond = True
+
+                            main.redo.append({"text_changed": main.current_text})
 
                             def drag_text():
 
