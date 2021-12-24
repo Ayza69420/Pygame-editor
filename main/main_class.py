@@ -45,11 +45,23 @@ class MAIN:
     def display(self):
         self.window.fill((255,255,255))
 
+        if self.auto_save == False:
+            main_loop.settings.buttons[0].color = (139,0,0)
+        elif self.auto_save == True:
+            main_loop.settings.buttons[0].color = (0,100,0)
+        if self.debug_mode == False:
+            main_loop.settings.buttons[1].color = (139,0,0)
+        elif self.debug_mode == True:
+            main_loop.settings.buttons[1].color = (0,100,0)
+
         for i in self.display_objects:
             i()
         
         if main_loop.opened_menu:
             main_loop.menu.create_menu()
+
+        if main_loop.opened_settings:
+            main_loop.settings.create_menu()
 
         pygame.display.flip()
 
@@ -200,7 +212,16 @@ class MAIN:
 
     def setup_settings(self):
         with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
-            settings = json.loads(sett.read())
+            settings = None
+
+            try:
+                settings = json.loads(sett.read())
+            except:
+                with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "w") as sett:
+                    sett.write(json.dumps({"auto_save": False, "debug_mode": True}))
+
+                settings = json.loads(sett.read())
+
 
             self.debug_mode = settings["debug_mode"]
             self.auto_save = settings["auto_save"]
