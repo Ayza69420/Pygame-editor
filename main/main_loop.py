@@ -1,5 +1,6 @@
 import pygame
 import os
+import json
 
 from threading import Thread
 
@@ -28,12 +29,13 @@ color_to_change = ""
 font = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Akzidenz-grotesk-roman.ttf",24)
 
 opened_menu = False
+opened_settings = False
 
 class BUTTON(pygame.Rect):
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, color=(54,57,63)):
         super(BUTTON, self).__init__(x, y, width, height)
         
-        self.color = (54, 57, 63)
+        self.color = color
 
     def create(self):
         pygame.draw.rect(main.window, self.color, pygame.Rect(self.x, self.y, self.width, self.height), 3)
@@ -71,22 +73,40 @@ class MENU:
         self.buttons.append(BUTTON(self.distance,50,self.width,self.height))
         self.buttons.append(BUTTON(self.distance,150,self.width,self.height))
         self.buttons.append(BUTTON(self.distance,250,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,350,self.width,self.height))
 
         self.buttons.append(BUTTON(main.window_width-300, main.window_height-100, 50, self.height))
         self.buttons.append(BUTTON(main.window_width-200, main.window_height-100, 50, self.height))
         self.buttons.append(BUTTON(main.window_width-100, main.window_height-100, 50, self.height))
-
         
-        self.text["SD"] = (TEXT("Save Data", self.distance*8, 70))
-        self.text["CD"] = (TEXT("Clear Data", self.distance*8, 170))
-        self.text["E"] = (TEXT("Erase", self.distance*8, 270))
+        self.text["SD"] = (TEXT("Save Data", self.distance*2, 65))
+        self.text["CD"] = (TEXT("Clear Data", self.distance*2, 165))
+        self.text["E"] = (TEXT("Erase", self.distance*2, 265))
+        self.text["S"] = (TEXT("Settings", self.distance*2, 365))
         self.text["C"] = (TEXT("RGB Color", main.window_width-230, main.window_height-150))
+        
 
-        self.text["R"] = (TEXT(str(main.r), self.buttons[3].x+5, self.buttons[3].y+15))
-        self.text["G"] = (TEXT(str(main.g), self.buttons[4].x+5, self.buttons[4].y+15))
-        self.text["B"] = (TEXT(str(main.b), self.buttons[5].x+5, self.buttons[5].y+15))
+        self.text["R"] = (TEXT(str(main.r), self.buttons[4].x+5, self.buttons[4].y+15))
+        self.text["G"] = (TEXT(str(main.g), self.buttons[5].x+5, self.buttons[5].y+15))
+        self.text["B"] = (TEXT(str(main.b), self.buttons[6].x+5, self.buttons[6].y+15))
+
+class SETTINGS(MENU):
+    def __init__(self):
+        super(SETTINGS, self).__init__()
+
+        self.buttons = []
+
+        self.setup()
+
+    def setup(self):
+        self.buttons.append(BUTTON(self.distance,50,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,150,self.width,self.height))
+
+        self.text["AS"] = TEXT("Auto Save", self.distance*2, 65)
+        self.text["DM"] = TEXT("Debug Mode", self.distance*1.5, 165)
 
 menu = MENU()
+settings = SETTINGS()
 
 while True:
     for event in pygame.event.get():
@@ -106,6 +126,10 @@ while True:
 
                 info.write(info_to_write)
             
+
+                with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "w") as settings:
+                    settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode}))
+
             pygame.quit()
             break
 
@@ -133,22 +157,49 @@ while True:
                             data.clear_data()
                         elif i == 2:
                             main.erase()
+                        elif i == 3:
+                            opened_settings = True
+                            opened_menu = False
 
-            if menu.buttons[3].collidepoint(event.pos) or menu.buttons[4].collidepoint(event.pos) or menu.buttons[5].collidepoint(event.pos):
+            if opened_settings:
+                for i,v in enumerate(settings.buttons):
+                    if v.collidepoint(event.pos):
+                        if i == 0:
+                            if main.auto_save == False:
+                                main.auto_save = True
+                                settings.buttons[0].color = (0,100,0)
+                            elif main.auto_save == True:
+                                main.auto_save = False
+                                settings.buttons[0].color = (139,0,0)
+
+                        elif i == 1:
+                            if main.debug_mode == False:
+                                main.debug_mode = True
+                                settings.buttons[1].color = (0,100,0)
+                            elif main.debug_mode == True:
+                                main.debug_mode = False
+                                settings.buttons[1].color = (139,0,0)
+
+
+            if menu.buttons[4].collidepoint(event.pos) or menu.buttons[5].collidepoint(event.pos) or menu.buttons[6].collidepoint(event.pos):
                 taking_color_input = True
 
-                if menu.buttons[3].collidepoint(event.pos):
-                    color_button = menu.text["R"]
                 if menu.buttons[4].collidepoint(event.pos):
-                    color_button = menu.text["G"]
+                    color_button = menu.text["R"]
+                    color_to_change = menu.text["R"].text
                 if menu.buttons[5].collidepoint(event.pos):
+                    color_button = menu.text["G"]
+                    color_to_change = menu.text["G"].text
+                if menu.buttons[6].collidepoint(event.pos):
                     color_button = menu.text["B"]
+                    color_to_change = menu.text["B"].text
 
             dragging = True
            
             if (event.pos[0] > main.current_rect.bottomright[0]-5 and event.pos[0] < main.current_rect.bottomright[0]+5) and (event.pos[1] < main.current_rect.bottomright[1]+5 and event.pos[1] > main.current_rect.bottomright[1]-5):
                 
-                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                if main.current_rect in main.rects:
+                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
 
                 def bottom_right():
                     try:
@@ -172,7 +223,9 @@ while True:
 
             elif event.pos[1] <= main.current_rect.bottom and event.pos[1] > main.current_rect.bottom-5:
 
-                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})          
+                if main.current_rect in main.rects:
+                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})          
+                
                 def height():               
                     try:     
                         old_mouse_y = event.pos[1]
@@ -191,7 +244,8 @@ while True:
 
             elif event.pos[0] < main.current_rect.right+5 and event.pos[0] >= main.current_rect.right-5:
 
-                main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                if main.current_rect in main.rects:
+                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
 
                 def width():
                     try:
@@ -214,8 +268,9 @@ while True:
 
             else:
                 if main.current_rect.collidepoint(event.pos):
-
-                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                    
+                    if main.current_rect in main.rects:
+                        main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
 
                     def drag_rect():
                         old_mouse_x = event.pos[0]
@@ -241,7 +296,8 @@ while True:
                             if not listening_for_keys:
                                     cond = True
 
-                            main.redo.append({"text_changed": main.current_text})
+                            if main.current_text in main.text:
+                                main.redo.append({"text_changed": main.current_text})
 
                             def drag_text():
 
@@ -268,8 +324,6 @@ while True:
             dragging = False
 
         if event.type == pygame.KEYDOWN:
-
-
             if taking_color_input:
                 if event.unicode.isdigit() and len(color_to_change) < 3:
                     color_to_change += event.unicode
@@ -305,12 +359,15 @@ while True:
                 else:
                     taking_color_input = False
 
+                    if not color_to_change:
+                        color_to_change = "0"
+
                     if color_button == menu.text["R"]:
-                        main.r = int(color_button.text)
+                        main.r = int(color_to_change)
                     if color_button == menu.text["G"]:
-                        main.g = int(color_button.text)
+                        main.g = int(color_to_change)
                     if color_button == menu.text["B"]:
-                        main.b = int(color_button.text)         
+                        main.b = int(color_to_change)         
 
                     color_to_change = ""
                     
@@ -374,6 +431,9 @@ while True:
                     opened_menu = False
                 else:
                     opened_menu = True
+
+                if opened_settings:
+                    opened_settings = False
 
             elif event.unicode == "e":
                 main.make_rect()              
