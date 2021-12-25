@@ -10,23 +10,11 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 
 ```git clone https://github.com/Ayza69420/Pygame-editor.git```
 
-# To-do
-
-- ~~Add rect coloring in the menu~~
-- ~~Create Menu~~
-- ~~Create settings~~  
-- Add ability to change text font in the menu  
-- Create help website, and create a "?" hotkey for it that redirects to it
-- ~~Create Copy, paste and cut~~
-- ~~Ability to get everything's information on close~~
-- ~~Saving~~
-- ~~Create Text~~
-
 # Hotkeys
 
 ***MAIN HOTKEYS***
 
-*M = Menu (Contains Important stuff, one of them being settings with contain coloring, font changing, etc.)*  
+*M = Menu (Contains Important stuff)*  
 *Z = Redo*  
 *Y = Undo*  
 *C = Copy*  
@@ -46,3 +34,16 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 *Escape (esc) = Change text size*  
 *Escape (esc) again = Finish/End Changing*  
 
+
+# To-do
+
+- ~~Add rect coloring in the menu~~
+- ~~Create Menu~~
+- ~~Create settings~~  
+- Add text font changing
+- Create help website, and create a "?" hotkey for it that redirects to it
+- Add color filling
+- ~~Create Copy, paste and cut~~
+- ~~Ability to get everything's information on close~~
+- ~~Saving~~
+- ~~Create Text~~
