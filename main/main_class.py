@@ -233,3 +233,10 @@ class MAIN:
 
     def copy_rect(self, obj):
         return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color)
+
+    def fill(self):
+        pos = pygame.mouse.get_pos()
+
+        for i in self.rects:
+            if i.collidepoint(pos):
+                i.color = (self.r, self.g, self.b)
