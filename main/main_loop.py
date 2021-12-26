@@ -456,6 +456,9 @@ while True:
             elif event.unicode == "x":
                 main.cut()
 
+            elif event.unicode == "f":
+                main.fill()
+
     main.display()
     
 data.save_data()
