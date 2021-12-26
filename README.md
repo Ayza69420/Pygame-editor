@@ -38,7 +38,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 # To-do
 
 - ~~Add rect coloring in the menu~~
-  - Add filling
+  - ~~Add filling~~
 - ~~Create Menu~~
 - ~~Create settings~~  
 - Add text font changing
