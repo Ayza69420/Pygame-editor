@@ -26,6 +26,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 *E = Create New Rect*  
 *T = Create text (This won't create text if you hover over a text, instead edit it)*  
 *R = Remove Object*  
+*F = Fill*  
 
 ***TEXT CONTROL HOTKEYS***
 
