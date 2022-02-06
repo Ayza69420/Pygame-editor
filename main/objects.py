@@ -1,10 +1,24 @@
 import pygame
 
+ids = []
+
+def create_id():
+    ID = len(ids)+1
+
+    ids.append(ID)
+    
+    return ID
+
 pygame.init()
 
 class RECT(pygame.Rect):
-    def __init__(self, x, y, width, height, main, color):
+    def __init__(self, x, y, width, height, main, color, ID=None):
         super(RECT, self).__init__(x, y, width, height)
+
+        if ID == None:
+            self.id = create_id()
+        else:
+            self.id = ID
 
         self.main = main
         self.color = color
@@ -13,16 +27,22 @@ class RECT(pygame.Rect):
         self.rect = pygame.draw.rect(self.main.window, (self.color),pygame.Rect(self.x,self.y,self.width,self.height))
         
 class TEXT:
-    def __init__(self, size, text, main, x, y):
+    def __init__(self, size, text, main, x, y, color=(0,0,0), ID=None):
+        if ID == None:
+            self.id = create_id()
+        else:
+            self.id = ID
+
         self.text = text
         self.main = main
         self.x = x
         self.y = y
+        self.color = color
         self._size = size
         self.obj = pygame.font.SysFont("freesansbold.ttf",self._size)
 
     def create(self):         
-        self.main.window.blit(self.obj.render(self.text,False,(0,0,0)), (self.x, self.y))
+        self.main.window.blit(self.obj.render(self.text,False,self.color), (self.x, self.y))
 
     @property
     def size(self):
