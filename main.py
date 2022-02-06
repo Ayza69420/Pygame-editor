@@ -15,7 +15,7 @@ print("""
 | HOTKEYS  
 |
 | M = Menu  
-| Z = Redo (Contains Important stuff, one of them being settings with contain coloring, font changing, etc.)
+| Z = Redo
 | Y = Undo
 | C = Copy
 | V = Paste
