@@ -44,6 +44,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 - ~~Create settings~~  
 - Add text font changing
 - Create help site
+- Auto updater
 - ~~Create Copy, paste and cut~~
 - ~~Ability to get everything's information on close~~
 - ~~Saving~~
