@@ -18,6 +18,8 @@ class MAIN:
 
         self.debug_mode = False
         self.auto_save = False
+
+        self.window_color = (255,255,255)
         
         self.r = 0
         self.g = 0
@@ -43,7 +45,7 @@ class MAIN:
 
 
     def display(self):
-        self.window.fill((255,255,255))
+        self.window.fill(self.window_color)
 
         if self.auto_save == False:
             main_loop.settings.buttons[0].color = (139,0,0)
@@ -96,7 +98,7 @@ class MAIN:
                     return
 
         except Exception as error:
-            self.debug(error)
+            self.debug(error, "(Line 159, main_class)")
 
     def undo_action(self):
         try:
@@ -126,14 +128,59 @@ class MAIN:
                 del_and_append()
 
             elif "rect_changed" in action:
-                self.rects.pop(action["rect_changed"]["index"])
-                self.rects.append(action["rect_changed"]["object"])
+                rect = action["rect_changed"]
 
-                self.redo.append(action["action"])
+                for i,v in enumerate(self.rects):
+                    if v.id == rect.id:
+                        self.redo.append({"rect_changed": self.copy_rect(v)})
+
+                        self.rects.pop(i)
+                        self.rects.append(rect)
+
+                        self.undo.pop()
+
+            elif "text_changed" in action:
+                text = action["text_changed"]
+
+                for i,v in enumerate(self.text):
+                    if v.id == text.id:
+                        self.redo.append({"text_changed": self.copy_text(v)})
+
+                        self.text.pop(i)
+                        self.text.append(text)
+
+                        self.undo.pop()
+
+            elif "rect_color" in action:
+                rect = action["rect_color"]
+
+                for i,v in enumerate(self.rects):
+                    if v.id == rect.id:
+                        self.redo.append({"rect_color": self.copy_rect(v)})
+
+                        self.rects[i].color = rect.color
+                        self.undo.pop()
+
+            elif "text_color" in action:
+                text = action["text_color"]
+
+                for i,v in enumerate(self.text):
+                    if v.id == text.id:
+                        self.redo.append({"text_color": self.copy_text(v)})
+
+                        self.text[i].color = text.color
+                        self.undo.pop()
+
+            elif "background_color" in action:
+                color = action["background_color"]
+
+                self.redo.append({"background_color": self.window_color})
+                self.window_color = (color[0], color[1], color[2])
+
                 self.undo.pop()
 
         except Exception as error:
-            self.debug(error)
+            self.debug(error, "(Line 159, main_class)")
 
     def redo_action(self):
         try:
@@ -164,16 +211,59 @@ class MAIN:
                 del_and_append()
 
             elif "rect_changed" in action:
-                self.undo.append({"rect_changed": {"index": len(self.rects)-1, "object": self.copy_rect(self.rects[action["rect_changed"]["index"]])}, "action": action})
-                
-                self.rects.pop(action["rect_changed"]["index"])
-                self.rects.append(action["rect_changed"]["object"])
-                
-                self.redo.pop()  
+                rect = action["rect_changed"]
 
-            
+                for i,v in enumerate(self.rects):
+                    if v.id == rect.id:
+                        self.undo.append({"rect_changed": self.copy_rect(v)})
+
+                        self.rects.pop(i)
+                        self.rects.append(rect)
+
+                        self.redo.pop()
+
+            elif "text_changed" in action:                
+                text = action["text_changed"]
+
+                for i,v in enumerate(self.text):
+                    if v.id == text.id:
+                        self.undo.append({"text_changed": self.copy_text(v)})
+
+                        self.text.pop(i)
+                        self.text.append(text)
+
+                        self.redo.pop()
+
+            elif "rect_color" in action:
+                rect = action["rect_color"]
+
+                for i,v in enumerate(self.rects):
+                    if v.id == rect.id:
+                        self.undo.append({"rect_color": self.copy_rect(v)})
+
+                        self.rects[i].color = rect.color
+                        self.redo.pop()
+
+            elif "text_color" in action:
+                text = action["text_color"]
+
+                for i,v in enumerate(self.text):
+                    if v.id == text.id:
+                        self.undo.append({"text_color": self.copy_text(v)})
+
+                        self.text[i].color = text.color
+                        self.redo.pop()
+
+            elif "background_color" in action:
+                color = action["background_color"]
+
+                self.undo.append({"background_color": self.window_color})
+                self.window_color = (color[0], color[1], color[2])
+
+                self.redo.pop()
+
         except Exception as error:
-            self.debug(error)
+            self.debug(error, "(Line 220, main_class)")
 
     def erase(self):
         self.rects = []
@@ -202,8 +292,7 @@ class MAIN:
 
         return x
 
-    def make_text(self, size=28, text=""):
-        
+    def make_text(self, size=28, text=""):      
         x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
         self.redo.append({"text_created": x})
         self.text.append(x)
@@ -226,17 +315,37 @@ class MAIN:
             self.debug_mode = settings["debug_mode"]
             self.auto_save = settings["auto_save"]
 
-    def debug(self, error):
+    def debug(self, error, msg):
         if self.debug_mode:
-            with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\debug.txt", "a") as debug:
-                debug.write(str(error)+"\n")
-
+            with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\debug.txt", "w") as debug:
+                debug.write(f"{str(error)} - {msg}\n")
+                
     def copy_rect(self, obj):
-        return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color)
+        return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color, obj.id)
+
+    def copy_text(self, obj):
+        return TEXT(obj.size, obj.text, self, obj.x, obj.y, obj.color, obj.id)
 
     def fill(self):
-        pos = pygame.mouse.get_pos()
-
+        x,y = pygame.mouse.get_pos()
+    
         for i in self.rects:
-            if i.collidepoint(pos):
+            if i.collidepoint((x,y)):
+                self.redo.append({"rect_color": self.copy_rect(i)})
+
                 i.color = (self.r, self.g, self.b)
+
+                return
+        
+        for i in self.text:
+            if (x > i.x and x <= i.x+i.obj.size(i.text)[0]+5) and (y > i.y and y <= i.y+i.obj.size(i.text)[1]+5):
+                self.redo.append({"text_color": self.copy_text(i)})
+                
+                i.color = (self.r, self.g, self.b)
+
+                return
+            
+        if not main_loop.opened_menu and not main_loop.opened_settings:
+            self.redo.append({"background_color": self.window_color})
+
+            self.window_color = (self.r, self.g, self.b)
