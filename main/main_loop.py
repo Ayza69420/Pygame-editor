@@ -199,7 +199,7 @@ while True:
             if (event.pos[0] > main.current_rect.bottomright[0]-5 and event.pos[0] < main.current_rect.bottomright[0]+5) and (event.pos[1] < main.current_rect.bottomright[1]+5 and event.pos[1] > main.current_rect.bottomright[1]-5):
                 
                 if main.current_rect in main.rects:
-                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                    main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
                 def bottom_right():
                     try:
@@ -217,14 +217,14 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                     except Exception as error:
-                        main.debug(error)
+                        main.debug(error, "(Line 220, main_loop)")
 
                 Thread(target=bottom_right).start()
 
             elif event.pos[1] <= main.current_rect.bottom and event.pos[1] > main.current_rect.bottom-5:
 
                 if main.current_rect in main.rects:
-                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})          
+                    main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})          
                 
                 def height():               
                     try:     
@@ -237,7 +237,7 @@ while True:
                                     old_mouse_y = event.pos[1]                  
                         return
                     except Exception as error:
-                        main.debug(error)
+                        main.debug(error, "(Line 240, main_loop)")
 
                 Thread(target=height).start()
 
@@ -245,7 +245,7 @@ while True:
             elif event.pos[0] < main.current_rect.right+5 and event.pos[0] >= main.current_rect.right-5:
 
                 if main.current_rect in main.rects:
-                    main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                    main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
                 def width():
                     try:
@@ -259,7 +259,7 @@ while True:
 
                         return    
                     except Exception as error:
-                        main.debug(error)
+                        main.debug(error, "(Line 262, main_loop)")
 
 
                 Thread(target=width).start()
@@ -270,7 +270,7 @@ while True:
                 if main.current_rect.collidepoint(event.pos):
                     
                     if main.current_rect in main.rects:
-                        main.redo.append({"rect_changed": {"index": main.rects.index(main.current_rect), "object": main.copy_rect(main.current_rect)}})
+                        main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
                     def drag_rect():
                         old_mouse_x = event.pos[0]
@@ -286,7 +286,7 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                         except Exception as error:
-                            main.debug(error)
+                            main.debug(error, "(Line 289, main_loop)")
 
                     Thread(target=drag_rect).start()
 
@@ -297,7 +297,7 @@ while True:
                                     cond = True
 
                             if main.current_text in main.text:
-                                main.redo.append({"text_changed": main.current_text})
+                                main.redo.append({"text_changed": main.copy_text(main.current_text)})
 
                             def drag_text():
 
@@ -315,7 +315,7 @@ while True:
                                             old_mouse_y = event.pos[1]
 
                                 except Exception:
-                                    main.debug(error)
+                                    main.debug(error, "(Line 318, main_loop)")
                                 
                             Thread(target=drag_text).start()
 
@@ -390,7 +390,7 @@ while True:
                             else:
                                 x.size = int(size_to_change)
                         except Exception as error:
-                            main.debug(error)
+                            main.debug(error, "(Line 393, main_loop)")
 
                             print("An error occurred while trying to change the size.")
                             size_to_change = ""   
@@ -413,7 +413,7 @@ while True:
                     else:
                         x.size = int(size_to_change)
                 except Exception as error:
-                    main.debug(error)
+                    main.debug(error, "(Line 416, main_loop)")
 
                     print("An error occurred while trying to change the size, size was reseted.")
                     size_to_change = ""
