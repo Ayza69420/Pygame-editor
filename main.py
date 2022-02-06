@@ -26,6 +26,7 @@ print("""
 | T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
 | E = Create New Rect
 | R = Remove Object
+| F = Fill
 |
 | TEXT CONTROL HOTKEYS
 |
