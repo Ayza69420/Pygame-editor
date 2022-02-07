@@ -6,6 +6,12 @@ from main.objects import RECT, TEXT
 import main.main_loop as main_loop
 
 class MAIN:
+    font = "Akzidenz-grotesk-roman.ttf"
+
+    if font not in os.listdir(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts"):
+        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
+            font = json.loads(sett.read())["default_font"]
+
     def __init__(self):
         self.window_height = int(input("Window height?\n"))
         self.window_width = int(input("Window width?\n"))
@@ -47,13 +53,13 @@ class MAIN:
     def display(self):
         self.window.fill(self.window_color)
 
-        if self.auto_save == False:
+        if not self.auto_save:
             main_loop.settings.buttons[0].color = (139,0,0)
-        elif self.auto_save == True:
+        elif self.auto_save:
             main_loop.settings.buttons[0].color = (0,100,0)
-        if self.debug_mode == False:
+        if not self.debug_mode:
             main_loop.settings.buttons[1].color = (139,0,0)
-        elif self.debug_mode == True:
+        elif self.debug_mode:
             main_loop.settings.buttons[1].color = (0,100,0)
 
         for i in self.display_objects:
@@ -293,20 +299,22 @@ class MAIN:
         return x
 
     def make_text(self, size=28, text=""):      
-        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts\\{self.font}")
         self.redo.append({"text_created": x})
         self.text.append(x)
 
         return x
 
     def setup_settings(self):
-        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
+        settings = f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json"
+
+        with open(settings, "r") as sett:
             settings = None
 
             try:
                 settings = json.loads(sett.read())
             except:
-                with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "w") as sett:
+                with open(settings, "w") as sett:
                     sett.write(json.dumps({"auto_save": False, "debug_mode": True}))
 
                 settings = json.loads(sett.read())
@@ -324,7 +332,7 @@ class MAIN:
         return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color, obj.id)
 
     def copy_text(self, obj):
-        return TEXT(obj.size, obj.text, self, obj.x, obj.y, obj.color, obj.id)
+        return TEXT(obj.size, obj.text, self, obj.x, obj.y, obj.font, obj.color, obj.id)
 
     def fill(self):
         x,y = pygame.mouse.get_pos()
