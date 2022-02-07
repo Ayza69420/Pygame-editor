@@ -16,6 +16,7 @@ main.setup_settings()
 data = data(main)
 data.get_data()
 
+font = MAIN.font
 selected = False
 dragging = False
 size_to_change = ""
@@ -26,7 +27,7 @@ taking_color_input = False
 color_button = None
 color_to_change = ""
 
-font = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Akzidenz-grotesk-roman.ttf",24)
+selected_font = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts\\{font}",24)
 
 opened_menu = False
 opened_settings = False
@@ -48,7 +49,7 @@ class TEXT:
         self.y = y
         
     def create(self):         
-        main.window.blit(font.render(self.text,False,(255,255,255)), (self.x, self.y))
+        main.window.blit(selected_font.render(self.text,False,(255,255,255)), (self.x, self.y))
 
 class MENU:
     def __init__(self):
@@ -121,7 +122,7 @@ while True:
                     info_to_write += f"RECT {i+1}: x: {v.x}, y: {v.y}, width: {v.width}, height: {v.height}, color: {v.color}\n"          
 
                 for i,v in enumerate(main.text):
-                    info_to_write += f"TEXT {i+1}: text: {v.text}, x: {v.x}, y: {v.y}, text size: {v.size}\n"
+                    info_to_write += f"TEXT {i+1}: text: {v.text}, x: {v.x}, y: {v.y}, text size: {v.size}, font: {v.font}\n"
 
 
                 info.write(info_to_write)
@@ -165,18 +166,18 @@ while True:
                 for i,v in enumerate(settings.buttons):
                     if v.collidepoint(event.pos):
                         if i == 0:
-                            if main.auto_save == False:
+                            if not main.auto_save:
                                 main.auto_save = True
                                 settings.buttons[0].color = (0,100,0)
-                            elif main.auto_save == True:
+                            elif main.auto_save:
                                 main.auto_save = False
                                 settings.buttons[0].color = (139,0,0)
 
                         elif i == 1:
-                            if main.debug_mode == False:
+                            if not main.debug_mode:
                                 main.debug_mode = True
                                 settings.buttons[1].color = (0,100,0)
-                            elif main.debug_mode == True:
+                            elif main.debug_mode:
                                 main.debug_mode = False
                                 settings.buttons[1].color = (139,0,0)
 
