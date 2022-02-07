@@ -1,4 +1,5 @@
 import pygame
+import os
 
 ids = []
 
@@ -27,7 +28,7 @@ class RECT(pygame.Rect):
         self.rect = pygame.draw.rect(self.main.window, (self.color),pygame.Rect(self.x,self.y,self.width,self.height))
         
 class TEXT:
-    def __init__(self, size, text, main, x, y, color=(0,0,0), ID=None):
+    def __init__(self, size, text, main, x, y, font, color=(0,0,0), ID=None):
         if ID == None:
             self.id = create_id()
         else:
@@ -37,9 +38,10 @@ class TEXT:
         self.main = main
         self.x = x
         self.y = y
+        self.font = font
         self.color = color
         self._size = size
-        self.obj = pygame.font.SysFont("freesansbold.ttf",self._size)
+        self.obj = pygame.font.Font(font,self._size)
 
     def create(self):         
         self.main.window.blit(self.obj.render(self.text,False,self.color), (self.x, self.y))
@@ -53,6 +55,6 @@ class TEXT:
         if self._size <= 100:
             self._size = size
 
-            self.obj = pygame.font.SysFont("freesansbold.ttf",self._size)
+            self.obj = pygame.font.Font(self.font,self._size)
         else:
             print("Size cannot be greater than 100.")
