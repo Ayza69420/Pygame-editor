@@ -20,6 +20,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 *C = Copy*  
 *V = Paste*  
 *X = Cut*  
+*? = Redirect to help site*
 
 ***OBJECTS HOTKEYS***  
 
