@@ -4,7 +4,6 @@ try:
     import pygame
 except ModuleNotFoundError:
     os.system("pip3 install pygame")    
-
     print("Pygame auto installation finished, you may restart the program now.")
 except ImportError:
     os.system("pip3 install pygame")    
