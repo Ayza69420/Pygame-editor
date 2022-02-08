@@ -1,8 +1,10 @@
 import pygame
 import os
 import json
+import webbrowser
 
 from threading import Thread
+
 
 from main.data import data
 from main.main_class import MAIN
@@ -484,6 +486,9 @@ while True:
 
                     elif event.unicode == "f":
                         main.fill()
+
+                    elif event.unicode == "?":
+                        webbrowser.open("ayza69420.github.io")
 
     main.display()
     
