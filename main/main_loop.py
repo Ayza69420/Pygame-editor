@@ -24,10 +24,9 @@ listening_for_keys = False
 listening_for_size_change = False
 cond = False
 taking_color_input = False
+taking_font_input = False
 color_button = None
 color_to_change = ""
-
-selected_font = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts\\{font}",24)
 
 opened_menu = False
 opened_settings = False
@@ -49,7 +48,9 @@ class TEXT:
         self.y = y
         
     def create(self):         
-        main.window.blit(selected_font.render(self.text,False,(255,255,255)), (self.x, self.y))
+        self.obj = pygame.font.Font(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts\\{font}",24).render(self.text,False,(255,255,255))
+
+        main.window.blit(self.obj, (self.x,self.y))
 
 class MENU:
     def __init__(self):
@@ -71,25 +72,32 @@ class MENU:
             self.text[i].create()
 
     def setup(self):
-        self.buttons.append(BUTTON(self.distance,50,self.width,self.height))
-        self.buttons.append(BUTTON(self.distance,150,self.width,self.height))
-        self.buttons.append(BUTTON(self.distance,250,self.width,self.height))
-        self.buttons.append(BUTTON(self.distance,350,self.width,self.height))
+        self.indexes = len(self.buttons)
 
-        self.buttons.append(BUTTON(main.window_width-300, main.window_height-100, 50, self.height))
-        self.buttons.append(BUTTON(main.window_width-200, main.window_height-100, 50, self.height))
-        self.buttons.append(BUTTON(main.window_width-100, main.window_height-100, 50, self.height))
+        self.buttons.append(BUTTON(self.distance,50,self.width,self.height)) # sd
+        self.buttons.append(BUTTON(self.distance,150,self.width,self.height)) # cd
+        self.buttons.append(BUTTON(self.distance,250,self.width,self.height)) # e
+        self.buttons.append(BUTTON(self.distance,350,self.width,self.height)) # s
+        
+        self.buttons.append(BUTTON(main.window_width-300, 100, 250, self.height)) # ff
+
+        self.buttons.append(BUTTON(main.window_width-300, main.window_height-100, 50, self.height)) # r
+        self.buttons.append(BUTTON(main.window_width-200, main.window_height-100, 50, self.height)) # g
+        self.buttons.append(BUTTON(main.window_width-100, main.window_height-100, 50, self.height)) # b
         
         self.text["SD"] = (TEXT("Save Data", self.distance*2, 65))
         self.text["CD"] = (TEXT("Clear Data", self.distance*2, 165))
         self.text["E"] = (TEXT("Erase", self.distance*2, 265))
         self.text["S"] = (TEXT("Settings", self.distance*2, 365))
+        self.text["F"] = (TEXT("Font", main.window_width-200, 25))
         self.text["C"] = (TEXT("RGB Color", main.window_width-230, main.window_height-150))
-        
 
-        self.text["R"] = (TEXT(str(main.r), self.buttons[4].x+5, self.buttons[4].y+15))
-        self.text["G"] = (TEXT(str(main.g), self.buttons[5].x+5, self.buttons[5].y+15))
-        self.text["B"] = (TEXT(str(main.b), self.buttons[6].x+5, self.buttons[6].y+15))
+        self.text["FF"] = (TEXT("", self.buttons[self.indexes-4].x+5, self.buttons[self.indexes-4].y+15))
+
+        # the rgb buttons are always made at the end so their indexes would be len(self.buttons) minus their order
+        self.text["R"] = (TEXT(str(main.r), self.buttons[self.indexes-3].x+5, self.buttons[self.indexes-3].y+15))
+        self.text["G"] = (TEXT(str(main.g), self.buttons[self.indexes-2].x+5, self.buttons[self.indexes-2].y+15))
+        self.text["B"] = (TEXT(str(main.b), self.buttons[self.indexes-1].x+5, self.buttons[self.indexes-1].y+15))
 
 class SETTINGS(MENU):
     def __init__(self):
@@ -129,7 +137,7 @@ while True:
             
 
                 with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "w") as settings:
-                    settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode}))
+                    settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "default_font": main.default_font}))
 
             pygame.quit()
             break
@@ -182,18 +190,21 @@ while True:
                                 settings.buttons[1].color = (139,0,0)
 
 
-            if menu.buttons[4].collidepoint(event.pos) or menu.buttons[5].collidepoint(event.pos) or menu.buttons[6].collidepoint(event.pos):
+            if menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos):
                 taking_color_input = True
 
-                if menu.buttons[4].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-3].collidepoint(event.pos):
                     color_button = menu.text["R"]
                     color_to_change = menu.text["R"].text
-                if menu.buttons[5].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-2].collidepoint(event.pos):
                     color_button = menu.text["G"]
                     color_to_change = menu.text["G"].text
-                if menu.buttons[6].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-1].collidepoint(event.pos):
                     color_button = menu.text["B"]
                     color_to_change = menu.text["B"].text
+
+            if menu.buttons[menu.indexes-4].collidepoint(event.pos):
+                taking_font_input = True
 
             dragging = True
            
@@ -337,7 +348,7 @@ while True:
 
                         print("You cannot put more than a value of 255.")
 
-            if event.unicode == "t" and not listening_for_keys:
+            if event.unicode == "t" and not listening_for_keys and not taking_font_input:
                 pos = pygame.mouse.get_pos()
 
                 if main.current_text in main.text and (pos[0] > main.current_text.x and pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (pos[1] > main.current_text.y and pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5) and cond:
@@ -351,13 +362,13 @@ while True:
 
 
             elif event.key == pygame.K_RETURN:
-                if not taking_color_input:
+                if not taking_color_input and not taking_font_input:
                     if cond and main.current_text:
                         cond = False
 
                     listening_for_keys = False
                     listening_for_size_change = False
-                else:
+                elif taking_color_input:
                     taking_color_input = False
 
                     if not color_to_change:
@@ -372,6 +383,11 @@ while True:
 
                     color_to_change = ""
                     
+                elif taking_font_input:
+                    taking_font_input = False
+
+                    main.font = menu.text["FF"].text
+
             elif event.key == pygame.K_ESCAPE and not listening_for_size_change and listening_for_keys:
                 listening_for_size_change = True
 
@@ -381,7 +397,7 @@ while True:
                 size_to_change = ""
 
             elif event.key == pygame.K_BACKSPACE:
-                if not taking_color_input:
+                if not taking_color_input and not taking_font_input:
                     if listening_for_size_change:
                         size_to_change = size_to_change[:-1]
 
@@ -401,10 +417,14 @@ while True:
                             main.current_text.text = main.current_text.text[:-1]
                         else:
                             x.text = x.text[:-1]
-                else:
+
+                elif taking_color_input:
                     color_to_change = color_to_change[:-1]
                     color_button.text = color_to_change
                     
+                elif taking_font_input:
+                    menu.text["FF"].text = menu.text["FF"].text[:-1]
+
             elif listening_for_size_change:
                 size_to_change += event.unicode
 
@@ -424,41 +444,46 @@ while True:
                     main.current_text.text += event.unicode
                 else:
                     x.text += event.unicode
+
+            elif taking_font_input:
+                menu.text["FF"].text += event.unicode
                 
             ########################
-
-            elif event.unicode == "m":
-                if opened_menu:
-                    opened_menu = False
-                else:
-                    opened_menu = True
-
-                if opened_settings:
-                    opened_settings = False
-
-            elif event.unicode == "e":
-                main.make_rect()              
             
-            elif event.unicode == "r":
-                main.delete_object()
+            else:
+                if not taking_color_input or not taking_font_input:
+                    if event.unicode == "m":
+                        if opened_menu:
+                            opened_menu = False
+                        else:
+                            opened_menu = True
 
-            elif event.unicode == "z" and main.redo:
-                main.redo_action()
-                  
-            elif event.unicode == "y" and main.undo:
-                main.undo_action()
+                        if opened_settings:
+                            opened_settings = False
 
-            elif event.unicode == "c":
-                main.copy()
+                    elif event.unicode == "e":
+                        main.make_rect()              
 
-            elif event.unicode == "v":
-                main.paste()
+                    elif event.unicode == "r":
+                        main.delete_object()
 
-            elif event.unicode == "x":
-                main.cut()
+                    elif event.unicode == "z" and main.redo:
+                        main.redo_action()
 
-            elif event.unicode == "f":
-                main.fill()
+                    elif event.unicode == "y" and main.undo:
+                        main.undo_action()
+
+                    elif event.unicode == "c":
+                        main.copy()
+
+                    elif event.unicode == "v":
+                        main.paste()
+
+                    elif event.unicode == "x":
+                        main.cut()
+
+                    elif event.unicode == "f":
+                        main.fill()
 
     main.display()
     
