@@ -42,7 +42,7 @@ All you gotta do is run the `main.py` file. When done using the program, all the
   - ~~Add filling~~
 - ~~Create Menu~~
 - ~~Create settings~~  
-- Create help site
+- Create help site  
 ~~- Add text font changing~~
 - ~~Create Copy, paste and cut~~
 - ~~Ability to get everything's information on close~~
