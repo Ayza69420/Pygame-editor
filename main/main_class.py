@@ -8,10 +8,19 @@ import main.main_loop as main_loop
 class MAIN:
     font = "Akzidenz-grotesk-roman.ttf"
 
-    if font not in os.listdir(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts"):
-        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
-            font = json.loads(sett.read())["default_font"]
+    # making sure the font exists in the folder, otherwise we use the default font
 
+    directory = os.listdir(f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts")
+
+    if font not in directory:
+        with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
+            default_font = json.loads(sett.read())["default_font"]
+            
+            if default_font not in directory:
+                print("Change the default font in the settings.json file with an installed font in the fonts folder.")
+            else:
+                font = default_font
+    
     def __init__(self):
         self.window_height = int(input("Window height?\n"))
         self.window_width = int(input("Window width?\n"))
@@ -315,13 +324,13 @@ class MAIN:
                 settings = json.loads(sett.read())
             except:
                 with open(settings, "w") as sett:
-                    sett.write(json.dumps({"auto_save": False, "debug_mode": True}))
+                    sett.write(json.dumps({"auto_save": False, "debug_mode": True, "default_font": "Akzidenz-grotesk-roman.ttf"}))
 
                 settings = json.loads(sett.read())
 
-
             self.debug_mode = settings["debug_mode"]
             self.auto_save = settings["auto_save"]
+            self.default_font = settings["default_font"]
 
     def debug(self, error, msg):
         if self.debug_mode:
