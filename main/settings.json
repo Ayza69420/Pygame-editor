@@ -1,4 +1,5 @@
 {
-    "auto_save": false,
-    "debug_mode": false
+ "auto_save": false, 
+ "debug_mode": true, 
+ "default_font": "Akzidenz-grotesk-roman.ttf"
 }
