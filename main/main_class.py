@@ -6,7 +6,8 @@ from main.objects import RECT, TEXT
 import main.main_loop as main_loop
 
 class MAIN:
-    font = "Akzidenz-grotesk-roman.ttf"
+    with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json", "r") as sett:
+        font = json.loads(sett.read())["default_font"]
 
     # making sure the font exists in the folder, otherwise we use the default font
 
@@ -33,6 +34,8 @@ class MAIN:
 
         self.debug_mode = False
         self.auto_save = False
+
+        self.path = os.path.split(os.path.realpath(__file__))[0]
 
         self.window_color = (255,255,255)
         
@@ -315,7 +318,7 @@ class MAIN:
         return x
 
     def setup_settings(self):
-        settings = f"{os.path.split(os.path.realpath(__file__))[0]}\\settings.json"
+        settings = f"{self.path}\\settings.json"
 
         with open(settings, "r") as sett:
             settings = None
@@ -334,7 +337,7 @@ class MAIN:
 
     def debug(self, error, msg):
         if self.debug_mode:
-            with open(f"{os.path.split(os.path.realpath(__file__))[0]}\\debug.txt", "w") as debug:
+            with open(f"{self.path}\\debug.txt", "w") as debug:
                 debug.write(f"{str(error)} - {msg}\n")
                 
     def copy_rect(self, obj):
