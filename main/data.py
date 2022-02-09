@@ -16,25 +16,36 @@ class data:
 
                 if data:
                     for i in data:
-                        if i["type"] == "rect":
-                            x = RECT(i["x"],i["y"],i["width"],i["height"],self.main,i["color"])
-                            self.main.rects.append(x)
+                        if "background_color" in i:
+                            self.main.window_color = i["background_color"]
+                            
+                        elif i["type"] == "rect":
+                            try:
+                                x = RECT(i["x"],i["y"],i["width"],i["height"],self.main,i["color"])
+                                self.main.rects.append(x)
+                            except Exception as err:
+                                self.main.debug(err, "(Line 27,, data.py)")
 
                         elif i["type"] == "text":
-                            x = TEXT(i["size"],i["text"],self.main,i["x"],i["y"], i["font"])
-                            self.main.text.append(x)
-
+                            try:
+                                x = TEXT(i["size"],i["text"],self.main,i["x"],i["y"], i["font"])
+                                self.main.text.append(x)
+                            except Exception as err:
+                                self.main.debug(err, "(Line 34, data.py)")
+                                
         except Exception as err:
             with open(data_file,"w") as data:
                 data.write(json.dumps([]))
 
                 print("Failed to retrieve data.")
-                self.main.debug(err)
+                self.main.debug(err, "(Line 41, data.py)")
 
     def save_data(self):
         with open(data_file, "w") as data:
             try:
                 data_to_write = []
+
+                data_to_write.append({"background_color": self.main.window_color})
 
                 if self.main.rects:
                     for i in self.main.rects:
@@ -53,7 +64,7 @@ class data:
                     data.write(json.dumps([]))
 
                     print("Failed to save the data")
-                    self.main.debug(err)
+                    self.main.debug(err, "(Line 67, data.py)")
 
     def clear_data(self):
         with open(data_file, "w") as data:
