@@ -19,6 +19,7 @@ print("""
 | C = Copy
 | V = Paste
 | X = Cut
+| ? = Redirect to help site
 |
 | OBJECTS HOTKEYS
 |
