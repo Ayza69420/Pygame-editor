@@ -2,6 +2,8 @@ import json
 import requests
 import os
 
+print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
+
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
 
 version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text.strip() # Repo version
@@ -55,5 +57,3 @@ with open(path+"\\version.txt", "r") as ver:
     else:
         if input("An update was found. Proceed on updating? Y/N\n").lower() == "y":
             update()
-        else:
-            input("No update was found.")
