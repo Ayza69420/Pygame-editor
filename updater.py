@@ -36,12 +36,12 @@ def update():
                      user_settings = json.loads(f.read())
 
                      if len(user_settings) != len(json.loads(content)):
-                        for i in user_settings:
-                            if i not in json.loads(content):
+                        for i in json.loads(content):
+                            if i not in user_settings:
                                 user_settings[i] = json.loads(content)[i]
 
                         with open(file_path, "w") as fw:
-                            fw.write(user_settings)
+                            fw.write(json.dumps(user_settings))
 
     with open(path+"version.txt", "w") as ver:
         ver.write(version)
