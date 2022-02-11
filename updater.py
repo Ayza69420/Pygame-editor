@@ -56,4 +56,4 @@ with open(path+"\\version.txt", "r") as ver:
         if input("An update was found. Proceed on updating? Y/N\n").lower() == "y":
             update()
         else:
-            pass
+            input("No update was found.")
