@@ -46,6 +46,7 @@ The purpose of updater.py is checking whether there are any new updates relying 
 - ~~Create Menu~~
 - ~~Create settings~~  
 - ~~Create help site~~  
+- ~~Create Updater~~
 - ~~Add text font changing~~
 - ~~Create Copy, paste and cut~~
 - ~~Ability to get everything's information on close~~
