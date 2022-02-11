@@ -18,10 +18,12 @@ def update():
             
             # Updating
             if os.path.exists(file_path) and repo_file["path"] != "main/settings.json":
-                print(f"Updating {repo_file['path']}..")
+                with open(file_path, "r") as fr:
+                    if fr.read().strip() != content.strip():
+                        print(f"Updating {repo_file['path']}..")
 
-                with open(file_path, "w") as fw:
-                    fw.write(content)
+                        with open(file_path, "w") as fw:
+                            fw.write(content)
 
             # Adding
             elif not os.path.exists(file_path):
@@ -32,6 +34,7 @@ def update():
             
             # Updating settings
             elif repo_file["path"] == "main/settings.json":
+                print(file_path)
                 with open(file_path, "r") as f:
                     user_settings = json.loads(f.read())
 
@@ -39,10 +42,13 @@ def update():
                        print("Updating main/settings.json..")
 
                        for i in json.loads(content):
+                           print(i)
                            if i not in user_settings:
+                               print(i)
                                user_settings[i] = json.loads(content)[i]
 
                        with open(file_path, "w") as fw:
+                           print(user_settings)
                            fw.write(json.dumps(user_settings))
 
     with open(path+"version.txt", "w") as ver:
