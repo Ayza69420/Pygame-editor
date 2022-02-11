@@ -6,7 +6,7 @@ print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
 
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
 
-version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text # Repo version
+version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text.strip() # Repo version
 
 repo_files = requests.get("https://api.github.com/repos/Ayza69420/Pygame-editor/git/trees/main?recursive=1").json()
 
@@ -33,15 +33,17 @@ def update():
             # Updating settings
             elif repo_file["path"] == "main/settings.json":
                 with open(file_path, "r") as f:
-                     user_settings = json.loads(f.read())
+                    user_settings = json.loads(f.read())
 
-                     if len(user_settings) != len(json.loads(content)):
-                        for i in json.loads(content):
-                            if i not in user_settings:
-                                user_settings[i] = json.loads(content)[i]
+                    if len(user_settings) != len(json.loads(content)):
+                       print("Updating main/settings.json..")
 
-                        with open(file_path, "w") as fw:
-                            fw.write(json.dumps(user_settings))
+                       for i in json.loads(content):
+                           if i not in user_settings:
+                               user_settings[i] = json.loads(content)[i]
+
+                       with open(file_path, "w") as fw:
+                           fw.write(json.dumps(user_settings))
 
     with open(path+"version.txt", "w") as ver:
         ver.write(version)
@@ -49,7 +51,7 @@ def update():
         input("Finished updating.")
 
 with open(path+"\\version.txt", "r") as ver:
-    if ver.read() == version:
+    if ver.read().strip() == version:
         input("No available updates.")
     else:
         if input("An update was found. Proceed on updating? Y/N\n").lower() == "y":
