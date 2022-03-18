@@ -192,7 +192,7 @@ while True:
                                 settings.buttons[1].color = (139,0,0)
 
 
-            if menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos):
+            if (menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos)) and not taking_font_input:
                 taking_color_input = True
 
                 if menu.buttons[menu.indexes-3].collidepoint(event.pos):
