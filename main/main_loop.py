@@ -205,7 +205,7 @@ while True:
                     color_button = menu.text["B"]
                     color_to_change = menu.text["B"].text
 
-            if menu.buttons[menu.indexes-4].collidepoint(event.pos):
+            if menu.buttons[menu.indexes-4].collidepoint(event.pos) and not taking_color_input:
                 taking_font_input = True
 
             dragging = True
