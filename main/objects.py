@@ -1,7 +1,9 @@
 import pygame
 import os
+import json
 
 ids = []
+path = os.path.split(os.path.realpath(__file__))[0]
 
 def create_id():
     ID = len(ids)+1
@@ -41,7 +43,15 @@ class TEXT:
         self.font = font
         self.color = color
         self._size = size
-        self.obj = pygame.font.Font(font,self._size)
+
+        try:
+            self.obj = pygame.font.Font(font,self._size)
+        except FileNotFoundError:
+            with open(path+"\\settings.json") as settings:
+                font = json.loads(settings.read())["default_font"]
+
+                self.font = f"{path}\\Fonts\\{font}"
+                self.obj = pygame.font.Font(self.font, self._size)
 
     def create(self):         
         self.main.window.blit(self.obj.render(self.text,False,self.color), (self.x, self.y))
