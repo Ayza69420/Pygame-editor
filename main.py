@@ -7,7 +7,6 @@ except ModuleNotFoundError:
     print("Pygame auto installation finished, you may restart the program now.")
 except ImportError:
     os.system("pip3 install pygame")    
-
     print("Pygame auto installation finished, you may restart the program now.")
 
 print("""
@@ -19,7 +18,6 @@ print("""
 | C = Copy
 | V = Paste
 | X = Cut
-| ? = Redirect to help site
 |
 | OBJECTS HOTKEYS
 |
