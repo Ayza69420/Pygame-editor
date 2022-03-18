@@ -304,7 +304,7 @@ class MAIN:
         self.delete_object()
 
     def make_rect(self, width=100, height=50):
-        x = RECT(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], width, height, self, (self.r, self.b, self.g))
+        x = RECT(pygame.mouse.get_pos()[0]-(width//2), pygame.mouse.get_pos()[1]-(height//2), width, height, self, (self.r, self.b, self.g))
         self.redo.append({"rect_created": x})
         self.rects.append(x) 
 
