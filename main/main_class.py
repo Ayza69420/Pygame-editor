@@ -312,6 +312,7 @@ class MAIN:
 
     def make_text(self, size=28, text=""):      
         x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  f"{os.path.split(os.path.realpath(__file__))[0]}\\Fonts\\{self.font}")
+
         self.redo.append({"text_created": x})
         self.text.append(x)
 
