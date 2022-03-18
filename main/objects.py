@@ -53,6 +53,8 @@ class TEXT:
                 self.font = f"{path}\\Fonts\\{font}"
                 self.obj = pygame.font.Font(self.font, self._size)
 
+                print("Invalid font.")
+
     def create(self):         
         self.main.window.blit(self.obj.render(self.text,False,self.color), (self.x, self.y))
 
