@@ -59,7 +59,7 @@ class MAIN:
 
         self.undo = []
         self.redo = []
-        self.clipboard = None
+        self.clipboard = {}
 
 
     def display(self):
