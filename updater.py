@@ -12,8 +12,8 @@ repo_files = requests.get("https://api.github.com/repos/Ayza69420/Pygame-editor/
 
 def update():
     for repo_file in repo_files["tree"]:
-        if repo_file["mode"] == "100644" and os.path.splitext(path+"\\"+repo_file["path"])[1] in (".py", ".txt", ".json"):
-            file_path = path+"\\"+repo_file["path"]
+        if repo_file["mode"] == "100644" and os.path.splitext(path+"/"+repo_file["path"])[1] in (".py", ".txt", ".json"):
+            file_path = path+"/"+repo_file["path"]
             content = requests.get(f"https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/{repo_file['path']}").text
             
             # Updating
@@ -52,7 +52,7 @@ def update():
 
         input("Finished updating.")
 
-with open(path+"\\version.txt", "r") as ver:
+with open(path+"/version.txt", "r") as ver:
     if ver.read().strip() == version:
         input("No available updates.")
     else:
