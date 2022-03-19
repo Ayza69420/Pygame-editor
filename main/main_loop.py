@@ -300,7 +300,7 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                         except Exception as error:
-                            main.debug(error, "(Line 289, main_loop)")
+                            main.debug(error, "(Line 303, main_loop)")
 
                     Thread(target=drag_rect).start()
 
