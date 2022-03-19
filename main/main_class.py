@@ -288,16 +288,37 @@ class MAIN:
         self.text = []
 
     def copy(self):
-        if self.currently_interacting == "rect":
-            self.clipboard = {"rect":self.current_rect}
-        elif self.currently_interacting == "text":
-            self.clipboard = {"text":self.current_text}
+        x, y = pygame.mouse.get_pos()
+        
+        try:
+            for i in self.rects:
+                if i.collidepoint(x, y):
+                    self.clipboard = {"rect": i}
+
+                    return
+            
+            for i in self.text:
+                if (x > i.x and x <= i.x+i.obj.size(i.text)[0]+5) and (y > i.y and y <= i.y+i.obj.size(i.text)[1]+5):
+                    self.clipboard = {"text": i}
+
+                    return
+        except Exception as error:
+            self.debug(error, "(Line 310, main_class)")
 
     def paste(self):
         if "text" in self.clipboard:
-            self.make_text(self.clipboard["text"].size, self.clipboard["text"].text)
+            obj = self.clipboard["text"]
+            text = TEXT(obj.size, obj.text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], obj.font, obj.color)
+
+            self.text.append(text)
+            self.redo.append({"text_created": text})
+
         elif "rect" in self.clipboard:
-            self.make_rect(self.clipboard["rect"].width, self.clipboard["rect"].height)
+            obj = self.clipboard["rect"]
+            rect = RECT(pygame.mouse.get_pos()[0]-(obj.width//2), pygame.mouse.get_pos()[1]-(obj.height//2), obj.width, obj.height, self, obj.color)
+            
+            self.rects.append(rect)
+            self.redo.append({"rect_created": rect})
 
     def cut(self):
         self.copy()
@@ -338,7 +359,7 @@ class MAIN:
 
     def debug(self, error, msg):
         if self.debug_mode:
-            with open(f"{self.path}\\debug.txt", "w") as debug:
+            with open(f"{self.path}\\debug.txt", "a") as debug:
                 debug.write(f"{str(error)} - {msg}\n")
                 
     def copy_rect(self, obj):
