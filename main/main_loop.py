@@ -50,7 +50,7 @@ class TEXT:
         self.y = y
         
     def create(self):         
-        self.obj = pygame.font.Font(f"{path}\\Fonts\\{font}",24).render(self.text,False,(255,255,255))
+        self.obj = pygame.font.Font(f"{path}/Fonts/{font}",24).render(self.text,False,(255,255,255))
 
         main.window.blit(self.obj, (self.x,self.y))
 
@@ -125,7 +125,7 @@ while True:
             if main.auto_save:
                 data.save_data()
                 
-            with open(f"{path}\\info.txt", "w") as info:
+            with open(f"{path}/info.txt", "w") as info:
                 info_to_write = ""
 
                 for i,v in enumerate(main.rects):
@@ -138,7 +138,7 @@ while True:
                 info.write(info_to_write)
             
 
-                with open(f"{path}\\settings.json", "w") as settings:
+                with open(f"{path}/settings.json", "w") as settings:
                     settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "default_font": main.default_font}))
 
             pygame.quit()
