@@ -3,7 +3,7 @@ import os
 
 from main.objects import RECT, TEXT
 
-data_file = f"{os.path.split(os.path.realpath(__file__))[0]}\\data.json"
+data_file = f"{os.path.split(os.path.realpath(__file__))[0]}/data.json"
 
 class data:
     def __init__(self, main):
