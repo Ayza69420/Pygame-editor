@@ -64,7 +64,7 @@ class TEXT:
 
     @size.setter
     def size(self, size):
-        if self._size <= 100:
+        if size <= 100:
             self._size = size
 
             self.obj = pygame.font.Font(self.font,self._size)
