@@ -18,35 +18,35 @@ The purpose of ``updater.py`` is checking whether there are any new updates rely
 
 ***MAIN HOTKEYS***
 
-- * M = Menu*  
+-  M = Menu*  
   - Save data
   - Clear data
   - Erase
   - Settings
   - Object color changing
   - Font changer
-- * Z = Redo*  
-- * Y = Undo*  
-- * C = Copy*
-- * V = Paste*  
-- * X = Cut*  
+- *Z = Redo*  
+- *Y = Undo*  
+- *C = Copy*
+- *V = Paste*  
+- *X = Cut*  
 
 ***OBJECTS HOTKEYS***  
 
-- * E = Create New Rect*  
-- * T = Create text*  
+- *E = Create New Rect*  
+- *T = Create text*  
   - If you're hovering over an existing text object, it'll instead edit it
-- * R = Remove Object*  
-- * F = Fill*
+- *R = Remove Object*  
+- *F = Fill*
   - Fills whatever you're hovering over with the color you're using
   - Colorable objects: Text, Rect, Background
 
 ***TEXT EDITING HOTKEYS***
 
-- * Backspace = Removes text*  
-- * Enter = Finish/End*  
-- * Escape (esc) = Change text size*  
-- * Escape (esc) again = Finish changing text size*  
+- *Backspace = Removes text*  
+- *Enter = Finish/End*  
+- *Escape (esc) = Change text size*  
+- *Escape (esc) again = Finish changing text size*  
 
 
 # Main To-do
