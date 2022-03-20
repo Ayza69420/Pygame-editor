@@ -31,14 +31,14 @@ class data:
                                 x = TEXT(i["size"],i["text"],self.main,i["x"],i["y"], i["font"])
                                 self.main.text.append(x)
                             except Exception as err:
-                                self.main.debug(err, "(Line 34, data.py)")
+                                self.main.debug(err)
                                 
         except Exception as err:
             with open(data_file,"w") as data:
                 data.write(json.dumps([]))
 
                 print("Failed to retrieve data.")
-                self.main.debug(err, "(Line 41, data.py)")
+                self.main.debug(err)
 
     def save_data(self):
         with open(data_file, "w") as data:
@@ -64,7 +64,7 @@ class data:
                     data.write(json.dumps([]))
 
                     print("Failed to save the data")
-                    self.main.debug(err, "(Line 67, data.py)")
+                    self.main.debug(err)
 
     def clear_data(self):
         with open(data_file, "w") as data:
