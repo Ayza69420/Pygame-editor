@@ -9,29 +9,6 @@ except ImportError:
     os.system("pip3 install pygame")    
     print("Pygame auto installation finished, you may restart the program now.")
 
-print("""
-| HOTKEYS  
-|
-| M = Menu  
-| Z = Redo
-| Y = Undo
-| C = Copy
-| V = Paste
-| X = Cut
-|
-| OBJECTS HOTKEYS
-|
-| T = Create text T = Create text (This won't create text if you select on an existing text and hover over it, instead edit it)
-| E = Create New Rect
-| R = Remove Object
-| F = Fill
-|
-| TEXT CONTROL HOTKEYS
-|
-| Backspace = Removes text
-| Enter = Finish/End
-| Escape (esc) = Change text size 
-| Escape (esc) again = Finish/End Changing
-""")
+print("Instructions can be found at: https://github.com/Ayza69420/Pygame-editor/blob/main/README.md")
 
 import main.main_loop
