@@ -8,9 +8,11 @@ All you gotta do is run the `main.py` file. When done using the program, all the
 
 The purpose of ``updater.py`` is checking whether there are any new updates relying on the ``version.txt``, if there are, it'll prompt you whether you wanna update or not.
 
-# Cloning with git
+# Installation
 
-```git clone https://github.com/Ayza69420/Pygame-editor.git```
+- Clone with git using the following command: ```git clone https://github.com/Ayza69420/Pygame-editor.git```
+- Run ``cd Pygame-editor``
+- Run ``pip install -r requirements.txt`` to install any required packages
 
 # Hotkeys
 
