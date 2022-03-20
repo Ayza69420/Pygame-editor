@@ -12,7 +12,7 @@ The purpose of ``updater.py`` is checking whether there are any new updates rely
 
 - Clone with git using the following command: ```git clone https://github.com/Ayza69420/Pygame-editor.git```
 - Run ``cd Pygame-editor``
-- Run ``pip install -r requirements.txt`` to install any required packages
+- Run ``pip install -r requirements.txt`` to install any required libraries
 
 # Hotkeys
 
