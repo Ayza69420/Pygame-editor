@@ -18,7 +18,7 @@ The purpose of ``updater.py`` is checking whether there are any new updates rely
 
 ***MAIN HOTKEYS***
 
--  M = Menu*  
+-  *M = Menu*  
   - Save data
   - Clear data
   - Erase
