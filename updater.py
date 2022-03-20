@@ -15,9 +15,9 @@ def update():
         if repo_file["mode"] == "100644" and os.path.splitext(path+"/"+repo_file["path"])[1] in (".py", ".txt", ".json"):
             file_path = path+"/"+repo_file["path"]
             content = requests.get(f"https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/{repo_file['path']}").text
-            
+
             # Updating
-            if os.path.exists(file_path) and repo_file["path"] != "main/settings.json":
+            if os.path.exists(file_path) and repo_file["path"] not in ("main/settings.json", "main/info.txt", "debug.txt"):
                 with open(file_path, "r") as fr:
                     if fr.read().strip() != content.strip():
                         print(f"Updating {repo_file['path']}..")
