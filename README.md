@@ -43,9 +43,12 @@ The purpose of ``updater.py`` is checking whether there are any new updates rely
 
 ***TEXT EDITING HOTKEYS***
 
-- *Backspace = Removes text*  
+- *Backspace = Removes*  
 - *Enter = Finish/End*  
 - *Escape (esc) = Change text size*  
+  - Appends whatever numbers you are pressing to the current size
+  - Backspace to remove one number
+  - Size cannot be greater than 100
 - *Escape (esc) again = Finish changing text size*  
 
 
