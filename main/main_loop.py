@@ -17,14 +17,19 @@ data = data(main)
 data.get_data()
 
 font = MAIN.font
+
 selected = False
 dragging = False
-size_to_change = ""
+
+size_to_change = 24
 listening_for_keys = False
 listening_for_size_change = False
+
 cond = False
+
 taking_color_input = False
 taking_font_input = False
+
 color_button = None
 color_to_change = ""
 
@@ -328,7 +333,7 @@ while True:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
 
-                                except Exception:
+                                except Exception as error:
                                     main.debug(error)
                                 
                             Thread(target=drag_text).start()
@@ -370,6 +375,7 @@ while True:
 
                     listening_for_keys = False
                     listening_for_size_change = False
+
                 elif taking_color_input:
                     taking_color_input = False
 
@@ -396,29 +402,25 @@ while True:
             elif listening_for_size_change and event.key == pygame.K_ESCAPE:
                 listening_for_size_change = False
 
-                size_to_change = ""
+            elif event.key == pygame.K_MINUS and listening_for_size_change:
+                size_to_change -= 1
+
+                try:
+                    if cond and main.current_text:
+                        main.current_text.size = size_to_change
+                    else:
+                        x.size = size_to_change
+                except Exception as error:
+                    main.debug(error)
+
+                    print("An error occurred while trying to change the size.")
 
             elif event.key == pygame.K_BACKSPACE:
-                if not taking_color_input and not taking_font_input:
-                    if listening_for_size_change:
-                        size_to_change = size_to_change[:-1]
-
-                        try:
-                            if cond and main.current_text:
-                                main.current_text.size = int(size_to_change)
-                            else:
-                                x.size = int(size_to_change)
-                        except Exception as error:
-                            main.debug(error)
-
-                            print("An error occurred while trying to change the size.")
-                            size_to_change = ""   
-
-                    elif listening_for_keys:
-                        if cond and main.current_text:
-                            main.current_text.text = main.current_text.text[:-1]
-                        else:
-                            x.text = x.text[:-1]
+                if listening_for_keys:
+                    if cond and main.current_text:
+                        main.current_text.text = main.current_text.text[:-1]
+                    else:
+                        x.text = x.text[:-1]
 
                 elif taking_color_input:
                     color_to_change = color_to_change[:-1]
@@ -427,19 +429,19 @@ while True:
                 elif taking_font_input:
                     menu.text["FF"].text = menu.text["FF"].text[:-1]
 
-            elif listening_for_size_change:
-                size_to_change += event.unicode
+            elif event.unicode == "+" and listening_for_size_change:
+                if size_to_change <= 100:
+                    size_to_change += 1
 
                 try:
                     if cond and main.current_text:
-                        main.current_text.size = int(size_to_change)
+                        main.current_text.size = size_to_change
                     else:
-                        x.size = int(size_to_change)
+                        x.size = size_to_change
                 except Exception as error:
                     main.debug(error)
 
                     print("An error occurred while trying to change the size, size was reseted.")
-                    size_to_change = ""
 
             elif listening_for_keys and not listening_for_size_change:
                 if cond and main.current_text:
