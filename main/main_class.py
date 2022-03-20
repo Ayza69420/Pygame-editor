@@ -116,7 +116,7 @@ class MAIN:
                     return
 
         except Exception as error:
-            self.debug(error, "(Line 159, main_class)")
+            self.debug(error)
 
     def undo_action(self):
         try:
@@ -198,7 +198,7 @@ class MAIN:
                 self.undo.pop()
 
         except Exception as error:
-            self.debug(error, "(Line 159, main_class)")
+            self.debug(error)
 
     def redo_action(self):
         try:
@@ -281,7 +281,7 @@ class MAIN:
                 self.redo.pop()
 
         except Exception as error:
-            self.debug(error, "(Line 220, main_class)")
+            self.debug(error)
 
     def erase(self):
         self.rects = []
@@ -303,7 +303,7 @@ class MAIN:
 
                     return
         except Exception as error:
-            self.debug(error, "(Line 310, main_class)")
+            self.debug(error)
 
     def paste(self):
         if "text" in self.clipboard:
@@ -357,10 +357,10 @@ class MAIN:
             self.auto_save = settings["auto_save"]
             self.default_font = settings["default_font"]
 
-    def debug(self, error, msg):
+    def debug(self, error):
         if self.debug_mode:
             with open(f"{self.path}/debug.txt", "a") as debug:
-                debug.write(f"{str(error)} - {msg}\n")
+                debug.write(f"{str(error)}\n")
                 
     def copy_rect(self, obj):
         return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color, obj.id)
