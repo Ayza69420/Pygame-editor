@@ -402,7 +402,7 @@ while True:
             elif listening_for_size_change and event.key == pygame.K_ESCAPE:
                 listening_for_size_change = False
 
-            elif event.key == pygame.K_MINUS and listening_for_size_change:
+            elif event.unicode == "-" and listening_for_size_change:
                 size_to_change -= 1
 
                 try:
