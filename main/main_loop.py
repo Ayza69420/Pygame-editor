@@ -231,7 +231,7 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                     except Exception as error:
-                        main.debug(error, "(Line 220, main_loop)")
+                        main.debug(error)
 
                 Thread(target=bottom_right).start()
 
@@ -251,7 +251,7 @@ while True:
                                     old_mouse_y = event.pos[1]                  
                         return
                     except Exception as error:
-                        main.debug(error, "(Line 240, main_loop)")
+                        main.debug(error)
 
                 Thread(target=height).start()
 
@@ -273,7 +273,7 @@ while True:
 
                         return    
                     except Exception as error:
-                        main.debug(error, "(Line 262, main_loop)")
+                        main.debug(error)
 
 
                 Thread(target=width).start()
@@ -300,7 +300,7 @@ while True:
                                     old_mouse_y = event.pos[1]
 
                         except Exception as error:
-                            main.debug(error, "(Line 303, main_loop)")
+                            main.debug(error)
 
                     Thread(target=drag_rect).start()
 
@@ -329,7 +329,7 @@ while True:
                                             old_mouse_y = event.pos[1]
 
                                 except Exception:
-                                    main.debug(error, "(Line 318, main_loop)")
+                                    main.debug(error)
                                 
                             Thread(target=drag_text).start()
 
@@ -409,7 +409,7 @@ while True:
                             else:
                                 x.size = int(size_to_change)
                         except Exception as error:
-                            main.debug(error, "(Line 393, main_loop)")
+                            main.debug(error)
 
                             print("An error occurred while trying to change the size.")
                             size_to_change = ""   
@@ -436,7 +436,7 @@ while True:
                     else:
                         x.size = int(size_to_change)
                 except Exception as error:
-                    main.debug(error, "(Line 416, main_loop)")
+                    main.debug(error)
 
                     print("An error occurred while trying to change the size, size was reseted.")
                     size_to_change = ""
