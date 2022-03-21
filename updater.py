@@ -57,5 +57,16 @@ with open(path+"/version.txt", "r") as ver:
     if ver.read().strip() == version:
         input("No available updates.")
     else:
-        if input("An update was found. Proceed on updating? Y/N\n").lower() == "y":
-            update()
+        print("An update was found.")
+
+        while True:
+            answer = input("Proceed on updating (y/n)? ").lower()
+            
+            if answer in ("y", "n"):
+                if answer == "y":
+                    update()
+                    break
+                quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
+            else:
+                print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
+                continue
