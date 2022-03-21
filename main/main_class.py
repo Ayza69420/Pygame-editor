@@ -6,15 +6,15 @@ from main.objects import RECT, TEXT
 import main.main_loop as main_loop
 
 class MAIN:
-    with open(f"{os.path.split(os.path.realpath(__file__))[0]}/settings.json", "r") as sett:
+    with open("%s/settings.json" % os.path.split(os.path.realpath(__file__))[0], "r") as sett:
         font = json.loads(sett.read())["default_font"]
 
     # making sure the font exists in the folder, otherwise we use the default font
 
-    directory = os.listdir(f"{os.path.split(os.path.realpath(__file__))[0]}/Fonts")
+    directory = os.listdir("%s/Fonts" % os.path.split(os.path.realpath(__file__))[0])
 
     if font not in directory:
-        with open(f"{os.path.split(os.path.realpath(__file__))[0]}/settings.json", "r") as sett:
+        with open("%s/settings.json", "r" % os.path.split(os.path.realpath(__file__))[0]) as sett:
             default_font = json.loads(sett.read())["default_font"]
             
             if default_font not in directory:
@@ -359,7 +359,7 @@ class MAIN:
 
     def debug(self, error):
         if self.debug_mode:
-            with open(f"{self.path}/debug.txt", "a") as debug:
+            with open("%s/debug.txt" % self.path, "a") as debug:
                 debug.write(f"{str(error)}\n")
                 
     def copy_rect(self, obj):
