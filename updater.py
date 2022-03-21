@@ -19,7 +19,7 @@ def update():
             # Updating
             if os.path.exists(file_path) and repo_file["path"] not in ("main/settings.json", "main/info.txt", "debug.txt"):
                 with open(file_path, "r") as fr:
-                    if sum([ord(i) for i in content if not i.isspace()]) != sum([ord(i) for i in fr.read() if not i.isspace()]):
+                    if [i for i in content if not i.isspace()] == [i for i in fr.read()]:
                         print(f"Updating {repo_file['path']}..")
 
                         with open(file_path, "w") as fw:
