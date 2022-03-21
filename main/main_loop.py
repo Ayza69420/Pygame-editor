@@ -55,7 +55,7 @@ class TEXT:
         self.y = y
         
     def create(self):         
-        self.obj = pygame.font.Font(f"{path}/Fonts/{font}",24).render(self.text,False,(255,255,255))
+        self.obj = pygame.font.Font("%s/Fonts/%s" % (path, font),24).render(self.text,False,(255,255,255))
 
         main.window.blit(self.obj, (self.x,self.y))
 
@@ -130,20 +130,20 @@ while True:
             if main.auto_save:
                 data.save_data()
                 
-            with open(f"{path}/info.txt", "w") as info:
+            with open("%s/info.txt", "w" % path) as info:
                 info_to_write = ""
 
                 for i,v in enumerate(main.rects):
-                    info_to_write += f"RECT {i+1}: x: {v.x}, y: {v.y}, width: {v.width}, height: {v.height}, color: {v.color}\n"          
+                    info_to_write += "RECT %s: x: %s, y: %s, width: %s, height: %s, color: %s\n" % (i+1, v.x, v.y, v.width, v.height, v.color)      
 
                 for i,v in enumerate(main.text):
-                    info_to_write += f"TEXT {i+1}: text: {v.text}, x: {v.x}, y: {v.y}, text size: {v.size}, font: {v.font}\n"
+                    info_to_write += "TEXT %s: text: %s, x: %s, y: %s, text size: %s, font: %s\n" % (i+1, v.text, v.x, v.y, v.size, v.font)
 
 
                 info.write(info_to_write)
             
 
-                with open(f"{path}/settings.json", "w") as settings:
+                with open("%s/settings.json", "w" % path) as settings:
                     settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "default_font": main.default_font}))
 
             pygame.quit()
