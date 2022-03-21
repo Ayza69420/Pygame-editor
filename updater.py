@@ -5,6 +5,7 @@ import os
 print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
 
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
+files_to_not_update = ("main/settings.json", "main/info.txt", "main/debug.txt", "main/data.json")
 
 version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text.strip() # Repo version
 
@@ -17,7 +18,7 @@ def update():
             content = requests.get(f"https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/{repo_file['path']}").text
 
             # Updating
-            if os.path.exists(file_path) and repo_file["path"] not in ("main/settings.json", "main/info.txt", "main/debug.txt", "main/data.json"):
+            if os.path.exists(file_path) and repo_file["path"] not in files_not_to_update:
                 with open(file_path, "r") as fr:
                     if [i for i in content if not i.isspace()] != [i for i in fr.read() if not i.isspace()]:
                         print(f"Updating {repo_file['path']}..")
