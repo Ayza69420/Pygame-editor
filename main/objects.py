@@ -45,7 +45,7 @@ class TEXT:
         self._size = size
 
         try:
-            self.obj = pygame.font.Font(font,self._size)
+            self.obj = pygame.font.Font(self.font,self._size)
         except FileNotFoundError:
             with open(path+"/settings.json") as settings:
                 font = json.loads(settings.read())["default_font"]
