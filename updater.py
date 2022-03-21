@@ -5,7 +5,7 @@ import os
 print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
 
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
-files_to_not_update = ("main/settings.json", "main/info.txt", "main/debug.txt", "main/data.json")
+files_not_to_update = ("main/settings.json", "main/info.txt", "main/debug.txt", "main/data.json")
 
 version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text.strip() # Repo version
 
