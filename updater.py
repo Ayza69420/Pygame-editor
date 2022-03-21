@@ -15,20 +15,20 @@ def update():
     for repo_file in repo_files["tree"]:
         if repo_file["mode"] == "100644" and os.path.splitext(path+"/"+repo_file["path"])[1] in (".py", ".txt", ".json"):
             file_path = path+"/"+repo_file["path"]
-            content = requests.get(f"https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/{repo_file['path']}").text
+            content = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/" + repo_file["path"]).text
 
             # Updating
             if os.path.exists(file_path) and repo_file["path"] not in files_not_to_update:
                 with open(file_path, "r") as fr:
                     if [i for i in content if not i.isspace()] != [i for i in fr.read() if not i.isspace()]:
-                        print(f"Updating {repo_file['path']}..")
+                        print("Updating %s.." % (repo_file["path"]))
 
                         with open(file_path, "w") as fw:
                             fw.write(content)
 
             # Adding
             elif not os.path.exists(file_path):
-                print(f"Adding {repo_file['path']}..")
+                print("Adding %s.." % (repo_file["path"]))
                 with open(file_path, "x") as f:
                     with open(file_path, "w") as f:
                         f.write(content) 
