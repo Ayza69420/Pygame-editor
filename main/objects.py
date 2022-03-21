@@ -50,7 +50,7 @@ class TEXT:
             with open(path+"/settings.json") as settings:
                 font = json.loads(settings.read())["default_font"]
 
-                self.font = f"{path}/Fonts/{font}"
+                self.font = "%s/Fonts/%s" % (path, font)
                 self.obj = pygame.font.Font(self.font, self._size)
 
                 print("Invalid font.")
