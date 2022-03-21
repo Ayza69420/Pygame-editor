@@ -46,8 +46,8 @@ The purpose of ``updater.py`` is checking whether there are any new updates rely
 - *Backspace = Removes*  
 - *Enter = Finish/End*  
 - *Escape (esc) = Change text size*  
-  - Adds 1 to the size if you press **+**
-  - Removes 1 from the size if you press **-**
+  - Increments the size by one if you press **+**
+  - Decrements the size by one if you press **-**
   - Size cannot be greater than 100
 - *Escape (esc) again = Finish changing text size*  
 
