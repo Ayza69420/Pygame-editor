@@ -6,7 +6,7 @@ Pygame editor is made to help you visualize UI in pygame, which will make creati
 
 All you gotta do is run the `main.py` file. When done using the program, all the objects details will be provided in the ``info.txt`` file automatically which can be found in the ``main`` folder, however, if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
 
-The purpose of ``updater.py`` is checking whether there are any new updates relying on the ``version.txt``, if there are, it'll prompt you whether you wanna update or not.
+The purpose of ``updater.py`` is providing optional update checking, if there are available updates, it'll prompt you whether you wanna update or not.
 
 # Installation
 
