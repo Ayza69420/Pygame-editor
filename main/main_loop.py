@@ -239,7 +239,7 @@ while running:
                                     main.current_rect.height += (event.pos[1] - old_mouse_y)
                                     old_mouse_y = event.pos[1]
 
-                            sleep(0.001)
+                            sleep(0.0001)
 
                     except Exception as error:
                         main.debug(error)
@@ -261,7 +261,7 @@ while running:
                                     main.current_rect.height += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]                  
                         
-                            sleep(0.001)
+                            sleep(0.0001)
 
                         return
                     except Exception as error:
@@ -285,7 +285,7 @@ while running:
                                     main.current_rect.width += event.pos[0] - old_mouse_x
                                     old_mouse_x = event.pos[0]
 
-                            sleep(0.001)
+                            sleep(0.0001)
 
                         return    
                     except Exception as error:
@@ -313,7 +313,7 @@ while running:
                                     main.current_rect.y += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]
 
-                                sleep(0.001)
+                                sleep(0.0001)
 
                         except Exception as error:
                             main.debug(error)
@@ -344,7 +344,7 @@ while running:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
 
-                                        sleep(0.001)
+                                        sleep(0.0001)
 
                                 except Exception as error:
                                     main.debug(error)
