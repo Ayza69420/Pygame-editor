@@ -7,9 +7,9 @@ print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
 files_not_to_update = ("main/settings.json", "main/info.txt", "main/debug.txt", "main/data.json")
 
-version = requests.get("https://raw.githubusercontent.com/Ayza69420/Pygame-editor/main/version.txt").text.strip() # Repo version
-
 repo_files = requests.get("https://api.github.com/repos/Ayza69420/Pygame-editor/git/trees/main?recursive=1").json()
+
+updated = False
 
 def update():
     for repo_file in repo_files["tree"]:
@@ -22,12 +22,15 @@ def update():
                 with open(file_path, "r") as fr:
                     if [i for i in content if not i.isspace()] != [i for i in fr.read() if not i.isspace()]:
                         print("Updating %s.." % (repo_file["path"]))
+                        updated = True
 
                         with open(file_path, "w") as fw:
                             fw.write(content)
 
             # Adding
             elif not os.path.exists(file_path):
+                updated = True
+
                 print("Adding %s.." % (repo_file["path"]))
                 with open(file_path, "x") as f:
                     with open(file_path, "w") as f:
@@ -39,6 +42,8 @@ def update():
                     user_settings = json.loads(f.read())
 
                     if len(user_settings) != len(json.loads(content)):
+                       updated = True
+
                        print("Updating main/settings.json..")
 
                        for i in json.loads(content):
@@ -48,25 +53,19 @@ def update():
                        with open(file_path, "w") as fw:
                            fw.write(json.dumps(user_settings))
 
-    with open(path+"version.txt", "w") as ver:
-        ver.write(version)
-
+    if updated:
         input("Finished updating.")
-
-with open(path+"/version.txt", "r") as ver:
-    if ver.read().strip() == version:
-        input("No available updates.")
     else:
-        print("An update was found.")
+        input("No updates found.")
 
-        while True:
-            answer = input("Proceed on updating (y/n)? ").lower()
-            
-            if answer in ("y", "n"):
-                if answer == "y":
-                    update()
-                    break
-                quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
-            else:
-                print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
-                continue
+while True:
+    answer = input("Proceed on updating (y/n)? ").lower()
+    
+    if answer in ("y", "n"):
+        if answer == "y":
+            update()
+            break
+        quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
+    else:
+        print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
+        continue
