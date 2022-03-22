@@ -332,7 +332,7 @@ class MAIN:
         return x
 
     def make_text(self, size=28, text=""):      
-        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  f"{os.path.split(os.path.realpath(__file__))[0]}/Fonts/{self.font}")
+        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  "%s/Fonts/%s" % (os.path.split(os.path.realpath(__file__))[0], self.font))
 
         self.redo.append({"text_created": x})
         self.text.append(x)
@@ -340,7 +340,7 @@ class MAIN:
         return x
 
     def setup_settings(self):
-        settings = f"{self.path}/settings.json"
+        settings = "%s/settings.json" % self.path
 
         with open(settings, "r") as sett:
             settings = None
