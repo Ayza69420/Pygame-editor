@@ -65,6 +65,8 @@ def update():
     else:
         print("No updates found.")    
 
+    return
+
 while True:
     if not auto_update:
         answer = input("Proceed on updating (y/n)? ").lower()
