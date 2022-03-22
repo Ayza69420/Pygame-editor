@@ -121,9 +121,11 @@ class SETTINGS(MENU):
     def setup(self):
         self.buttons.append(BUTTON(self.distance,50,self.width,self.height))
         self.buttons.append(BUTTON(self.distance,150,self.width,self.height))
+        self.buttons.append(BUTTON(self.distance,250,self.width,self.height))
 
         self.text["AS"] = TEXT("Auto Save", self.distance*2, 65)
         self.text["DM"] = TEXT("Debug Mode", self.distance*1.5, 165)
+        self.text["AU"] = TEXT("Auto Update", self.distance, 265)
 
 menu = MENU()
 settings = SETTINGS()
@@ -148,7 +150,7 @@ while running:
             
 
                 with open("%s/settings.json" % path, "w") as settings:
-                    settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "default_font": main.default_font}))
+                    settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "auto_update": main.auto_update, "default_font": main.default_font}))
 
             pygame.quit()
             running = False
@@ -239,7 +241,7 @@ while running:
                                     main.current_rect.height += (event.pos[1] - old_mouse_y)
                                     old_mouse_y = event.pos[1]
 
-                            sleep(0.0001)
+                            sleep(0.001)
 
                     except Exception as error:
                         main.debug(error)
@@ -261,7 +263,7 @@ while running:
                                     main.current_rect.height += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]                  
                         
-                            sleep(0.0001)
+                            sleep(0.001)
 
                         return
                     except Exception as error:
@@ -285,7 +287,7 @@ while running:
                                     main.current_rect.width += event.pos[0] - old_mouse_x
                                     old_mouse_x = event.pos[0]
 
-                            sleep(0.0001)
+                            sleep(0.001)
 
                         return    
                     except Exception as error:
@@ -313,7 +315,7 @@ while running:
                                     main.current_rect.y += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]
 
-                                sleep(0.0001)
+                                sleep(0.001)
 
                         except Exception as error:
                             main.debug(error)
@@ -344,7 +346,7 @@ while running:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
 
-                                        sleep(0.0001)
+                                        sleep(0.001)
 
                                 except Exception as error:
                                     main.debug(error)
