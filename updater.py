@@ -75,9 +75,10 @@ while True:
             if answer == "y":
                 update()
                 break
-            quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
         else:
             print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
             continue
     else:
         update()
+    
+    quit()
