@@ -38,6 +38,8 @@ opened_settings = False
 
 path = os.path.split(os.path.realpath(__file__))[0]
 
+running = True
+
 class BUTTON(pygame.Rect):
     def __init__(self, x, y, width, height, color=(54,57,63)):
         super(BUTTON, self).__init__(x, y, width, height)
@@ -124,13 +126,13 @@ class SETTINGS(MENU):
 menu = MENU()
 settings = SETTINGS()
 
-while True:
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             if main.auto_save:
                 data.save_data()
                 
-            with open("%s/info.txt", "w" % path) as info:
+            with open("%s/info.txt" % path, "w") as info:
                 info_to_write = ""
 
                 for i,v in enumerate(main.rects):
@@ -143,11 +145,11 @@ while True:
                 info.write(info_to_write)
             
 
-                with open("%s/settings.json", "w" % path) as settings:
+                with open("%s/settings.json" % path, "w") as settings:
                     settings.write(json.dumps({"auto_save": main.auto_save, "debug_mode": main.debug_mode, "default_font": main.default_font}))
 
             pygame.quit()
-            break
+            running = False
 
 
         if event.type == pygame.MOUSEBUTTONDOWN:     
@@ -459,6 +461,7 @@ while True:
                     if event.unicode == "m":
                         if opened_menu:
                             opened_menu = False
+                            taking_font_input, taking_color_input, listening_for_size_change = False, False, False
                         else:
                             opened_menu = True
 
@@ -489,6 +492,5 @@ while True:
                     elif event.unicode == "f":
                         main.fill()
 
-    main.display()
-    
-data.save_data()
+    if running:
+        main.display()
