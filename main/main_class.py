@@ -36,7 +36,7 @@ class MAIN:
         self.auto_save = False
         self.auto_update = False
 
-        self.default_settings = {"auto_save": False, "debug_mode": True, "default_font": "Akzidenz-grotesk-roman.ttf"}
+        self.default_settings = {"auto_save": False, "debug_mode": True, "auto_update": False, "default_font": "Akzidenz-grotesk-roman.ttf"}
 
         self.path = os.path.split(os.path.realpath(__file__))[0]
 
