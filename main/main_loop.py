@@ -9,6 +9,7 @@ from main.main_class import MAIN
 
 pygame.init()
 
+clock = pygame.time.Clock()
 main = MAIN()
 
 main.setup_settings()
@@ -492,3 +493,4 @@ while running:
 
     if running:
         main.display()
+        clock.tick(60)
