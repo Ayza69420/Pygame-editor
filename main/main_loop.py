@@ -199,20 +199,20 @@ while running:
                                 settings.buttons[1].color = (139,0,0)
 
 
-            if (menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos)) and not taking_font_input:
+            if (menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos)) and not taking_font_input and opened_menu:
                 taking_color_input = True
 
-                if menu.buttons[menu.indexes-3].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-3].collidepoint(event.pos) and opened_menu:
                     color_button = menu.text["R"]
                     color_to_change = menu.text["R"].text
-                if menu.buttons[menu.indexes-2].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-2].collidepoint(event.pos) and opened_menu:
                     color_button = menu.text["G"]
                     color_to_change = menu.text["G"].text
-                if menu.buttons[menu.indexes-1].collidepoint(event.pos):
+                if menu.buttons[menu.indexes-1].collidepoint(event.pos) and opened_menu:
                     color_button = menu.text["B"]
                     color_to_change = menu.text["B"].text
 
-            if menu.buttons[menu.indexes-4].collidepoint(event.pos) and not taking_color_input:
+            if menu.buttons[menu.indexes-4].collidepoint(event.pos) and not taking_color_input and opened_menu:
                 taking_font_input = True
 
             dragging = True
@@ -284,8 +284,6 @@ while running:
 
 
                 Thread(target=width).start()
-
-            
 
             else:
                 if main.current_rect.collidepoint(event.pos):
