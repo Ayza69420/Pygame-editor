@@ -14,7 +14,7 @@ class MAIN:
     directory = os.listdir("%s/Fonts" % os.path.split(os.path.realpath(__file__))[0])
 
     if font not in directory:
-        with open("%s/settings.json", "r" % os.path.split(os.path.realpath(__file__))[0]) as sett:
+        with open("%s/settings.json" % os.path.split(os.path.realpath(__file__))[0]), "r" as sett:
             default_font = json.loads(sett.read())["default_font"]
             
             if default_font not in directory:
