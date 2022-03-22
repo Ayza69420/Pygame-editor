@@ -34,6 +34,9 @@ class MAIN:
 
         self.debug_mode = False
         self.auto_save = False
+        self.auto_update = False
+
+        self.default_settings = {"auto_save": False, "debug_mode": True, "default_font": "Akzidenz-grotesk-roman.ttf"}
 
         self.path = os.path.split(os.path.realpath(__file__))[0]
 
@@ -349,13 +352,14 @@ class MAIN:
                 settings = json.loads(sett.read())
             except:
                 with open(settings, "w") as sett:
-                    sett.write(json.dumps({"auto_save": False, "debug_mode": True, "default_font": "Akzidenz-grotesk-roman.ttf"}))
+                    sett.write(json.dumps(self.default_settings))
 
                 settings = json.loads(sett.read())
 
             self.debug_mode = settings["debug_mode"]
             self.auto_save = settings["auto_save"]
             self.default_font = settings["default_font"]
+            self.auto_update = settings["auto_update"]
 
     def debug(self, error):
         if self.debug_mode:
