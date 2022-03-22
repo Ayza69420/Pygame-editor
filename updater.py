@@ -12,9 +12,9 @@ files_not_to_update = ("main/settings.json", "main/info.txt", "main/debug.txt", 
 
 repo_files = requests.get("https://api.github.com/repos/Ayza69420/Pygame-editor/git/trees/main?recursive=1").json()
 
-updated = False
-
 def update():
+    updated = False
+
     for repo_file in repo_files["tree"]:
         if repo_file["mode"] == "100644" and os.path.splitext(path+"/"+repo_file["path"])[1] in (".py", ".txt", ".json"):
             file_path = path+"/"+repo_file["path"]
