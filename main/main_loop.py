@@ -125,7 +125,7 @@ class SETTINGS(MENU):
 
         self.text["AS"] = TEXT("Auto Save", self.distance*2, 65)
         self.text["DM"] = TEXT("Debug Mode", self.distance*1.5, 165)
-        self.text["AU"] = TEXT("Auto Update", self.distance, 265)
+        self.text["AU"] = TEXT("Auto Update", self.distance*1.5, 265)
 
 menu = MENU()
 settings = SETTINGS()
@@ -184,23 +184,18 @@ while running:
                             opened_menu = False
 
             if opened_settings:
-                for i,v in enumerate(settings.buttons):
-                    if v.collidepoint(event.pos):
-                        if i == 0:
-                            if not main.auto_save:
-                                main.auto_save = True
-                                settings.buttons[0].color = (0,100,0)
-                            elif main.auto_save:
-                                main.auto_save = False
-                                settings.buttons[0].color = (139,0,0)
+                buttons = {0: main.auto_save, 1: main.debug_mode, 2: main.auto_update}
 
-                        elif i == 1:
-                            if not main.debug_mode:
-                                main.debug_mode = True
-                                settings.buttons[1].color = (0,100,0)
-                            elif main.debug_mode:
-                                main.debug_mode = False
-                                settings.buttons[1].color = (139,0,0)
+                for i,v in enumerate(settings.buttons):
+                    if v.collidepoint(event.pos):        
+                        if not buttons[i]:
+                            buttons[i] = True
+                            settings.buttons[i].color = (0,100,0)
+                        elif buttons[i]:
+                            buttons[i] = False
+                            settings.buttons[i].color = (139,0,0)
+
+                main.auto_save, main.debug_mode, main.auto_update = buttons[0], buttons[1], buttons[2]
 
 
             if (menu.buttons[menu.indexes-3].collidepoint(event.pos) or menu.buttons[menu.indexes-2].collidepoint(event.pos) or menu.buttons[menu.indexes-1].collidepoint(event.pos)) and not taking_font_input and opened_menu:
