@@ -2,6 +2,7 @@ import pygame
 import os
 import json
 
+from time import sleep
 from threading import Thread
 
 from main.data import data
@@ -238,6 +239,8 @@ while running:
                                     main.current_rect.height += (event.pos[1] - old_mouse_y)
                                     old_mouse_y = event.pos[1]
 
+                            sleep(0.01)
+
                     except Exception as error:
                         main.debug(error)
 
@@ -257,6 +260,9 @@ while running:
                                 if event.pos[1] != old_mouse_y: 
                                     main.current_rect.height += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]                  
+                        
+                            sleep(0.01)
+
                         return
                     except Exception as error:
                         main.debug(error)
@@ -278,6 +284,8 @@ while running:
                                 if event.pos[0] != old_mouse_x:
                                     main.current_rect.width += event.pos[0] - old_mouse_x
                                     old_mouse_x = event.pos[0]
+
+                            sleep(0.01)
 
                         return    
                     except Exception as error:
@@ -304,6 +312,8 @@ while running:
                                 if event.pos[1] != old_mouse_y:
                                     main.current_rect.y += event.pos[1] - old_mouse_y
                                     old_mouse_y = event.pos[1]
+
+                                sleep(0.01)
 
                         except Exception as error:
                             main.debug(error)
@@ -333,6 +343,8 @@ while running:
                                         if event.pos[1] != old_mouse_y:
                                             main.current_text.y += event.pos[1] - old_mouse_y
                                             old_mouse_y = event.pos[1]
+
+                                        sleep(0.01)
 
                                 except Exception as error:
                                     main.debug(error)
