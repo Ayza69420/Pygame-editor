@@ -2,6 +2,9 @@ import json
 import requests
 import os
 
+with open("./main/settings.json") as sett:
+    auto_update = json.loads(sett.read())["auto_update"]
+
 print("NOTICE: THE WHOLE PROCESS MAY TAKE LONG")
 
 path = os.path.split(os.path.realpath(__file__))[0] # Path to the current directory
@@ -9,9 +12,9 @@ files_not_to_update = ("main/settings.json", "main/info.txt", "main/debug.txt", 
 
 repo_files = requests.get("https://api.github.com/repos/Ayza69420/Pygame-editor/git/trees/main?recursive=1").json()
 
+updated = False
+
 def update():
-    updated = False
-    
     for repo_file in repo_files["tree"]:
         if repo_file["mode"] == "100644" and os.path.splitext(path+"/"+repo_file["path"])[1] in (".py", ".txt", ".json"):
             file_path = path+"/"+repo_file["path"]
@@ -53,19 +56,26 @@ def update():
                        with open(file_path, "w") as fw:
                            fw.write(json.dumps(user_settings))
 
-    if updated:
+    if updated and not auto_update:
         input("Finished updating.")
-    else:
+    elif not updated and not auto_update:
         input("No updates found.")
+    elif updated and auto_update:
+        print("Finished updating.")
+    else:
+        print("No updates found.")    
 
 while True:
-    answer = input("Proceed on updating (y/n)? ").lower()
-    
-    if answer in ("y", "n"):
-        if answer == "y":
-            update()
-            break
-        quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
+    if not auto_update:
+        answer = input("Proceed on updating (y/n)? ").lower()
+
+        if answer in ("y", "n"):
+            if answer == "y":
+                update()
+                break
+            quit() # no else statement required here, if the answer wasn't y (because it would break the while loop), then it's n
+        else:
+            print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
+            continue
     else:
-        print("Your answer (%s) is not valid. Please enter either (Y/y = Yes) or (N/n = No)" % answer)
-        continue
+        update()
