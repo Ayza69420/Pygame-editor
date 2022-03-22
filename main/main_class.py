@@ -68,14 +68,9 @@ class MAIN:
     def display(self):
         self.window.fill(self.window_color)
 
-        if not self.auto_save:
-            main_loop.settings.buttons[0].color = (139,0,0)
-        elif self.auto_save:
-            main_loop.settings.buttons[0].color = (0,100,0)
-        if not self.debug_mode:
-            main_loop.settings.buttons[1].color = (139,0,0)
-        elif self.debug_mode:
-            main_loop.settings.buttons[1].color = (0,100,0)
+        main_loop.settings.buttons[0].color = ((139,0,0), (0,100,0))[self.auto_save]
+        main_loop.settings.buttons[1].color = ((139,0,0), (0,100,0))[self.debug_mode]
+        main_loop.settings.buttons[2].color = ((139,0,0), (0,100,0))[self.auto_update]
 
         for i in self.display_objects:
             i()
