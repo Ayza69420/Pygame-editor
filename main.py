@@ -17,7 +17,7 @@ except ImportError:
 print("Instructions can be found at: https://github.com/Ayza69420/Pygame-editor/blob/main/README.md")
 
 if auto_update:
-    if platform.lower() in ("linux", "linux2", "darwin"):
+    if platform.lower() in ("linux", "linux2"):
         system("python3 updater.py")
     else:
         system("python updater.py")
