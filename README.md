@@ -51,15 +51,23 @@ The purpose of ``updater.py`` is providing optional update checking, if there ar
   - Size cannot be greater than 100
 - *Escape (esc) again = Finish changing text size*  
 
+# Menu
 
-# Main To-do
-
-- ~~Add rect coloring in the menu~~
-  - ~~Add filling~~
-- ~~Create Menu~~
-- ~~Create settings~~  
-- ~~Create Updater~~
-- ~~Add text font changing~~
-- ~~Create Copy, paste and cut~~
-- ~~Ability to get everything's information on close~~
-- ~~Saving~~
+- Save data
+  - Saves everything in the `data.json` file in a format the program can understand
+- Clear data
+  - Clears the data safely to avoid errors
+- Erase
+  - Erases everything, cannot be undone
+- RGB Color
+  - Contains 3 text boxes (R, G, B) in a sorted order
+  - Clicking on any button and typing in numbers **(Cannot be greater than 255)** will change any new object's color, you will have to press enter to confirm
+- Font
+  - Changes text font to the font you specify
+  - The text you input is **Case sensitive** and **Must contain the full name with the file extension**
+  - If an invalid font was given, it'll automatically use the default font specificed in the `settings.json` file **(Can be found in the `main` folder)**
+  - The font file **must be in the `Fonts` folder** which can be found inside of the `main` folder.
+- Settings
+  - Auto save: Will automatically save if you close the program
+  - Debug Mode: Saves any errors in the `debug.txt` file which can be found in the `main` folder
+  - Auto update: Will automatically update as soon as you run the program
