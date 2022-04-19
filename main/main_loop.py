@@ -217,7 +217,6 @@ while running:
             dragging = True
            
             if (event.pos[0] > main.current_rect.bottomright[0]-5 and event.pos[0] < main.current_rect.bottomright[0]+5) and (event.pos[1] < main.current_rect.bottomright[1]+5 and event.pos[1] > main.current_rect.bottomright[1]-5):
-                
                 if main.current_rect in main.rects:
                     main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
@@ -227,14 +226,16 @@ while running:
                         old_mouse_y = event.pos[1]
 
                         while dragging:         
-                            if main.current_rect.width > main.maximum_resizing and main.current_rect.height > main.maximum_resizing:                       
-                                if old_mouse_x != event.pos[0]:
-                                    main.current_rect.width += (event.pos[0] - old_mouse_x)
-                                    old_mouse_x = event.pos[0]
+                            if old_mouse_x != event.pos[0]:
+                                main.current_rect.width += (event.pos[0] - old_mouse_x)
+                                old_mouse_x = event.pos[0]
 
-                                if old_mouse_y != event.pos[1]:
-                                    main.current_rect.height += (event.pos[1] - old_mouse_y)
-                                    old_mouse_y = event.pos[1]
+                            if old_mouse_y != event.pos[1]:
+                                main.current_rect.height += (event.pos[1] - old_mouse_y)
+                                old_mouse_y = event.pos[1]
+
+                            main.current_rect.height = max(main.current_rect.height, main.maximum_resizing)
+                            main.current_rect.width = max(main.current_rect.width, main.maximum_resizing)
 
                             sleep(0.001)
 
@@ -253,11 +254,12 @@ while running:
                         old_mouse_y = event.pos[1]
 
                         while dragging:
-                            if main.current_rect.height > main.maximum_resizing:
-                                if event.pos[1] != old_mouse_y: 
-                                    main.current_rect.height += event.pos[1] - old_mouse_y
-                                    old_mouse_y = event.pos[1]                  
-                        
+                            if event.pos[1] != old_mouse_y: 
+                                main.current_rect.height += event.pos[1] - old_mouse_y
+                                old_mouse_y = event.pos[1]         
+
+                            main.current_rect.height = max(main.current_rect.height, main.maximum_resizing)
+                                                   
                             sleep(0.001)
 
                         return
@@ -277,10 +279,11 @@ while running:
                         old_mouse_x = event.pos[0]
 
                         while dragging:
-                            if main.current_rect.width > main.maximum_resizing:
-                                if event.pos[0] != old_mouse_x:
-                                    main.current_rect.width += event.pos[0] - old_mouse_x
-                                    old_mouse_x = event.pos[0]
+                            if event.pos[0] != old_mouse_x:
+                                main.current_rect.width += event.pos[0] - old_mouse_x
+                                old_mouse_x = event.pos[0]
+
+                            main.current_rect.width = max(main.current_rect.width, main.maximum_resizing)
 
                             sleep(0.001)
 
@@ -292,8 +295,7 @@ while running:
                 Thread(target=width).start()
 
             else:
-                if main.current_rect.collidepoint(event.pos):
-                    
+                if main.current_rect.collidepoint(event.pos):         
                     if main.current_rect in main.rects:
                         main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
@@ -327,8 +329,6 @@ while running:
                                 main.redo.append({"text_changed": main.copy_text(main.current_text)})
 
                             def drag_text():
-
-
                                 old_mouse_x = event.pos[0]
                                 old_mouse_y = event.pos[1]
 
