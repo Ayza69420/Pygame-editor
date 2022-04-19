@@ -54,7 +54,7 @@ class MAIN:
         self.rects = [RECT(self.window_width/2-50, self.window_height/2-50, 100, 50, self, (self.r, self.g, self.b))] 
         self.text = []
 
-        self.maximum_resizing = 5
+        self.maximum_resizing = 10
 
         self.currently_interacting = None
         self.current_rect = self.rects[0]
