@@ -409,6 +409,10 @@ while running:
             elif event.key == pygame.K_ESCAPE and not listening_for_size_change and listening_for_keys:
                 listening_for_size_change = True
 
+                if main.current_text:
+                    size_to_change = main.current_text.size
+                
+
             elif listening_for_size_change and event.key == pygame.K_ESCAPE:
                 listening_for_size_change = False
 
