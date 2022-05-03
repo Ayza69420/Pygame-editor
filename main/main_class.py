@@ -2,10 +2,14 @@ import pygame
 import json
 import os
 
+from datetime import datetime
 from main.objects import RECT, TEXT
 import main.main_loop as main_loop
 
 class MAIN:
+    with open("%s/debug.txt" % os.path.split(os.path.realpath(__file__))[0], "w") as deb:
+        deb.write("")
+        
     with open("%s/settings.json" % os.path.split(os.path.realpath(__file__))[0], "r") as sett:
         font = json.loads(sett.read())["default_font"]
 
@@ -359,7 +363,7 @@ class MAIN:
     def debug(self, error):
         if self.debug_mode:
             with open("%s/debug.txt" % self.path, "a") as debug:
-                debug.write(f"{str(error)}\n")
+                debug.write("%s %s | %s\n" % (datetime.date(datetime.now()),datetime.time(datetime.now()),str(error)))
                 
     def copy_rect(self, obj):
         return RECT(obj.x, obj.y, obj.width, obj.height, self, obj.color, obj.id)
