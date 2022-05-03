@@ -69,5 +69,5 @@ The purpose of ``updater.py`` is providing optional update checking, if there ar
   - The font file **must be in the `Fonts` folder** which can be found inside of the `main` folder.
 - Settings
   - Auto save: Will automatically save if you close the program
-  - Debug Mode: Saves any errors in the `debug.txt` file which can be found in the `main` folder
+  - Debug Mode: Saves any errors with the timestamp in the `debug.txt` file which can be found in the `main` folder
   - Auto update: Will automatically update as soon as you run the program
