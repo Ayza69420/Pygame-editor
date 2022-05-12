@@ -295,7 +295,33 @@ while running:
                 Thread(target=width).start()
 
             else:
-                if main.current_rect.collidepoint(event.pos):         
+                if main.current_text and (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
+                    if not listening_for_keys:
+                            cond = True
+
+                    if main.current_text in main.text:
+                        main.redo.append({"text_changed": main.copy_text(main.current_text)})
+
+                    def drag_text():
+                        old_mouse_x = event.pos[0]
+                        old_mouse_y = event.pos[1]
+
+                        try:
+                            while dragging:
+                                if event.pos[0] != old_mouse_x:
+                                    main.current_text.x += event.pos[0] - old_mouse_x
+                                    old_mouse_x = event.pos[0]
+                                if event.pos[1] != old_mouse_y:
+                                    main.current_text.y += event.pos[1] - old_mouse_y
+                                    old_mouse_y = event.pos[1]
+                                sleep(0.001)
+
+                        except Exception as error:
+                            main.debug(error)
+                        
+                    Thread(target=drag_text).start()
+
+                elif main.current_rect.collidepoint(event.pos):
                     if main.current_rect in main.rects:
                         main.redo.append({"rect_changed": main.copy_rect(main.current_rect)})
 
@@ -318,36 +344,6 @@ while running:
                             main.debug(error)
 
                     Thread(target=drag_rect).start()
-
-                else:
-                    if main.current_text:
-                        if (event.pos[0] > main.current_text.x and event.pos[0] <= main.current_text.x+main.current_text.obj.size(main.current_text.text)[0]+5) and (event.pos[1] > main.current_text.y and event.pos[1] <= main.current_text.y+main.current_text.obj.size(main.current_text.text)[1]+5):
-                            if not listening_for_keys:
-                                    cond = True
-
-                            if main.current_text in main.text:
-                                main.redo.append({"text_changed": main.copy_text(main.current_text)})
-
-                            def drag_text():
-                                old_mouse_x = event.pos[0]
-                                old_mouse_y = event.pos[1]
-
-                                try:
-                                    while dragging:
-                                        if event.pos[0] != old_mouse_x:
-                                            main.current_text.x += event.pos[0] - old_mouse_x
-                                            old_mouse_x = event.pos[0]
-                                        if event.pos[1] != old_mouse_y:
-                                            main.current_text.y += event.pos[1] - old_mouse_y
-                                            old_mouse_y = event.pos[1]
-
-                                        sleep(0.001)
-
-                                except Exception as error:
-                                    main.debug(error)
-                                
-                            Thread(target=drag_text).start()
-
 
         if event.type == pygame.MOUSEBUTTONUP and dragging:
             dragging = False
