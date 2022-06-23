@@ -1,6 +1,6 @@
 # Pygame editor
 
-Pygame editor is made to help you visualize UI in pygame, which will make creating UI much easier. still work in progress.
+Pygame editor is made to help you visualize UI in pygame, which will make creating UI much easier.
 
 # Instructions
 
