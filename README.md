@@ -63,7 +63,7 @@ The purpose of ``updater.py`` is providing optional update checking, if there ar
   - Contains 3 text boxes (R, G, B) in a sorted order
   - Clicking on any button and typing in numbers **(Cannot be greater than 255)** will change any new object's color, you will have to press enter to confirm
 - Font
-  - Changes text font to the font you specify
+  - Changes new text font to the font you specify
   - The text you input is **Case sensitive** and **Must contain the full name with the file extension**
   - If an invalid font was given, it'll automatically use the default font specificed in the `settings.json` file **(Can be found in the `main` folder)**
   - The font file **must be in the `Fonts` folder** which can be found inside of the `main` folder.
