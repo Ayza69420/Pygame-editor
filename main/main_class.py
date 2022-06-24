@@ -4,6 +4,7 @@ import os
 
 from datetime import datetime
 from main.objects import RECT, TEXT
+
 import main.main_loop as main_loop
 
 class MAIN:
@@ -30,12 +31,6 @@ class MAIN:
         self.window_height = int(input("Window height?\n"))
         self.window_width = int(input("Window width?\n"))
 
-        try:
-            assert(self.window_height >= 600 and self.window_width >= 600)
-        except AssertionError:
-            print("Width and height must be atleast 600.")
-            exit()
-
         self.debug_mode = False
         self.auto_save = False
         self.auto_update = False
@@ -52,6 +47,8 @@ class MAIN:
 
         self.window = pygame.display.set_mode((self.window_height, self.window_width))
         pygame.display.set_caption("Pygame editor")
+
+        self.window_width, self.window_height = self.window.get_width(), self.window.get_height()
 
         self.display_objects = [self.create_rect,self.create_text]
 
@@ -293,15 +290,15 @@ class MAIN:
         x, y = pygame.mouse.get_pos()
         
         try:
-            for i in self.rects:
-                if i.collidepoint(x, y):
-                    self.clipboard = {"rect": i}
-
-                    return
-            
             for i in self.text:
                 if (x > i.x and x <= i.x+i.obj.size(i.text)[0]+5) and (y > i.y and y <= i.y+i.obj.size(i.text)[1]+5):
                     self.clipboard = {"text": i}
+
+                    return
+                
+            for i in self.rects:
+                if i.collidepoint(x, y):
+                    self.clipboard = {"rect": i}
 
                     return
         except Exception as error:
@@ -334,7 +331,7 @@ class MAIN:
         return x
 
     def make_text(self, size=28, text=""):      
-        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  "%s/Fonts/%s" % (os.path.split(os.path.realpath(__file__))[0], self.font))
+        x = TEXT(size, text, self, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1],  "%s/Fonts/%s" % (os.path.split(os.path.realpath(__file__))[0], self.font, [self.r, self.g, self.b]))
 
         self.redo.append({"text_created": x})
         self.text.append(x)
