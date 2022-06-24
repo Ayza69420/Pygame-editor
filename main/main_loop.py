@@ -74,7 +74,7 @@ class MENU:
         self.setup()
 
     def create_menu(self):
-        self.menu = pygame.draw.rect(main.window, (32, 34, 37),pygame.Rect(0,0, main.window_width, main.window_height))
+        self.menu = pygame.draw.rect(main.window, (32, 34, 37), pygame.Rect(0, 0, main.window_width, main.window_height))    
 
         for i in self.buttons:
             i.create()
@@ -474,7 +474,7 @@ while running:
                             opened_menu = True
 
                         if opened_settings:
-                            opened_settings = False
+                            opened_settings = False   
 
                     elif event.unicode == "e":
                         main.make_rect()              
