@@ -2,6 +2,8 @@
 
 Pygame editor is made to help you visualize UI in pygame, which will make creating UI much easier.
 
+**This project is discontinued, there won't be any more guaranteed updates nor fixes.**
+
 # Instructions
 
 All you gotta do is run the `main.py` file. When done using the program, all the objects details will be provided in the ``info.txt`` file automatically which can be found in the ``main`` folder, however, if you wanna save the states of each object, you can use the **M** hotkey to open the menu as listed below in the hotkeys and use the save data button.
